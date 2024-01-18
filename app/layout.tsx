@@ -1,6 +1,7 @@
 // Import styles of packages that you've installed.
 // All packages except `@mantine/hooks` require styles imports
 import '@mantine/core/styles.css';
+import './/globals.css'
 
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 
@@ -19,7 +20,7 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body>
+      <body style={{maxWidth: "1024px" , margin: "auto"}} className='bg-slate-100'>
         <MantineProvider>{children}</MantineProvider>
       </body>
     </html>
