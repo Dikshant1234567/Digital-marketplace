@@ -21,6 +21,7 @@ import {
 import { GoogleButton } from "../components/GoogleButton";
 import { TwitterButton } from "../components/TwitterButton";
 import Link from "next/link";
+import Navbar from "../components/Navbar";
 
 export default function Sinup(props: PaperProps) {
   const form = useForm({
@@ -95,7 +96,12 @@ export default function Sinup(props: PaperProps) {
           <Anchor component="button" type="button" c="dimmed" size="xs">
             <Link href="/login">Already have an account? Login</Link>
           </Anchor>
-          <Button type="submit" radius="xl">
+          <Button
+            type="submit"
+            radius="xl"
+            className="border-[1]"
+            style={{ border: "2px solid black" }}
+          >
             Register
           </Button>
         </Group>

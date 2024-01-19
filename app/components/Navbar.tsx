@@ -33,6 +33,8 @@ import {
 import classes from "./HeaderMegaMenu.module.css";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import myLogo from '../assets/favicon.ico'
 
 const mockdata = [
   {
@@ -95,19 +97,14 @@ export default function Navbar() {
   ));
 
   const router = useRouter();
-
-  const handleSinupPageBtn = () => {
-    alert("ccc")
-    console.log('nkendwned')
-    router.push("/sinup");
-  };
-
   return (
     <Box className="bg-slate-150 py-4">
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          <MantineLogo size={30} />
-
+          <Link  href={'/'}>
+          <Image src={myLogo} alt="logo" width={40} height={40}/>
+          </Link>
+          
           <Group h="100%" gap={0} visibleFrom="sm">
             <a href="#" className={classes.link}>
               Home
@@ -226,10 +223,11 @@ export default function Navbar() {
                 console.log("clicked");
                 router.push("/login");
               }}
+              className="py-24"
             >
               <Link href='/login'>Log in</Link>
             </Button>
-            <Button onClick={()=> handleSinupPageBtn()}>Sign up</Button>
+            <Button onClick={()=> router.push('/sinup')} style={{border: "2px solid black"}}>Sign up</Button>
           </Group>
         </ScrollArea>
       </Drawer>
