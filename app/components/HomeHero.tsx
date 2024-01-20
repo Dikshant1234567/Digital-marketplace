@@ -3,7 +3,7 @@ import React from "react";
 
 function HomeHero() {
   return (
-    <Box className="my-12 px-6 text-center">
+    <Box className="my-12 px-6">
       <Title order={1} fz={40}>
         Your Digital marketplace for high-quality
         <span className="text-blue-600"> digital assets</span>

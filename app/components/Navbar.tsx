@@ -127,7 +127,7 @@ export default function Navbar() {
               <HoverCard.Dropdown style={{ overflow: "hidden" }}>
                 <Group className="items-end">
                   {MyIcondata.map((items) => (
-                    <Box display={"block"} className="text-center">
+                    <Box display={"block"} className="text-center" key={items.name}>
                       <Title order={5} mb={5}>
                         {items.name}
                       </Title>
@@ -168,7 +168,7 @@ export default function Navbar() {
               <HoverCard.Dropdown style={{ overflow: "hidden" }}>
                 <Group>
                   {MyUiKitsData.map((items) => (
-                    <Box display={"block"} className="text-center">
+                    <Box display={"block"} className="text-center" key={items.name}>
                       <Title order={5} mb={5}>
                         {items.name}
                       </Title>
@@ -184,19 +184,6 @@ export default function Navbar() {
                 </Group>
               </HoverCard.Dropdown>
             </HoverCard>
-            <a href="#" className={classes.link}>
-              Learn
-            </a>
-            <a href="#" className={classes.link}>
-              Academy
-            </a>
-            <Button
-              onClick={() =>
-                setColorScheme(colorScheme === "dark" ? "light" : "dark")
-              }
-            >
-              Hello
-            </Button>
           </Group>
 
           {/* login and sinup btns */}
@@ -205,6 +192,14 @@ export default function Navbar() {
               Log in
             </Button>
             <Button onClick={() => router.push("/sinup")}>Sign up</Button>
+            <Button
+              onClick={() =>
+                setColorScheme(colorScheme === "light" ? "dark" : "light")
+              }
+              style={{textTransform :'capitalize'}}
+            >
+              {colorScheme=== 'dark'? 'light' : 'dark'}
+            </Button>
           </Group>
 
           <Burger
