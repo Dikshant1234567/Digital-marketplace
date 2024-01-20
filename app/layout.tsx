@@ -20,7 +20,7 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body style={{maxWidth: "1024px" , margin: "auto"}} className='bg-slate-100'>
+      <body style={{maxWidth: "1024px" , margin: "auto"}}>
         <MantineProvider>{children}</MantineProvider>
       </body>
     </html>
