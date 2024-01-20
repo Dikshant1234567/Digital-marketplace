@@ -18,6 +18,7 @@ import {
   ScrollArea,
   rem,
   useMantineTheme,
+  useMantineColorScheme,
 } from "@mantine/core";
 import { MantineLogo } from "@mantinex/mantine-logo";
 import { useDisclosure } from "@mantine/hooks";
@@ -35,6 +36,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import myLogo from '../assets/favicon.ico'
+import { useEffect } from "react";
 
 const mockdata = [
   {
@@ -74,6 +76,12 @@ export default function Navbar() {
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
+  const { setColorScheme, clearColorScheme ,colorScheme } = useMantineColorScheme();
+
+  useEffect(()=>{
+setColorScheme('dark')
+  },[])
+
 
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
@@ -165,6 +173,7 @@ export default function Navbar() {
             <a href="#" className={classes.link}>
               Academy
             </a>
+            <Button onClick={()=>setColorScheme(colorScheme==='dark'?'light':'dark')}>{colorScheme==='dark'?"Light":"Dark"}</Button>
           </Group>
 
           <Group visibleFrom="sm">
