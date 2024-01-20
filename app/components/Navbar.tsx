@@ -173,7 +173,7 @@ setColorScheme('dark')
             <a href="#" className={classes.link}>
               Academy
             </a>
-            <Button onClick={()=>setColorScheme(colorScheme==='dark'?'light':'dark')}>{colorScheme==='dark'?"Light":"Dark"}</Button>
+            <Button onClick={()=>setColorScheme(colorScheme==='dark'?'light':'dark')}>Hello</Button>
           </Group>
 
           <Group visibleFrom="sm">
