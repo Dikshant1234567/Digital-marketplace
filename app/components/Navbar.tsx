@@ -18,6 +18,7 @@ import {
   ScrollArea,
   rem,
   useMantineTheme,
+  Title,
 } from "@mantine/core";
 import { MantineLogo } from "@mantinex/mantine-logo";
 import { useDisclosure } from "@mantine/hooks";
@@ -34,38 +35,46 @@ import classes from "./HeaderMegaMenu.module.css";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import myLogo from '../assets/favicon.ico'
+import myLogo from "../assets/favicon.ico";
+import Mybestseller from "../assets/icons/bestsellers.jpg";
+import MynewImg from "../assets/icons/new.jpg";
+import MyPicks from "../assets/icons/picks.jpg";
+import MyBlue from "../assets/ui-kits/blue.jpg";
+import MyMixed from "../assets/ui-kits/mixed.jpg";
+import MyPurple from "../assets/ui-kits/purple.jpg";
 
-const mockdata = [
+const MyIcondata = [
   {
-    icon: IconCode,
-    title: "Open source",
-    description: "This Pokémon’s cry is very loud and distracting",
+    name: "BestSeller",
+    href: "#",
+    imageSrc: Mybestseller,
   },
   {
-    icon: IconCoin,
-    title: "Free for everyone",
-    description: "The fluid of Smeargle’s tail secretions changes",
+    name: "New Arrivals",
+    href: "#",
+    imageSrc: MynewImg,
   },
   {
-    icon: IconBook,
-    title: "Documentation",
-    description: "Yanma is capable of seeing 360 degrees without",
+    name: "Picks",
+    href: "#",
+    imageSrc: MynewImg,
+  },
+];
+const MyUiKitsData = [
+  {
+    name: "Blue",
+    href: "#",
+    imageSrc: MyBlue,
   },
   {
-    icon: IconFingerprint,
-    title: "Security",
-    description: "The shell’s rounded shape and the grooves on its.",
+    name: "Mixed",
+    href: "#",
+    imageSrc: MyMixed,
   },
   {
-    icon: IconChartPie3,
-    title: "Analytics",
-    description: "This Pokémon uses its flying ability to quickly chase",
-  },
-  {
-    icon: IconNotification,
-    title: "Notifications",
-    description: "Combusken battles with the intensely hot flames it spews",
+    name: "Purple",
+    href: "#",
+    imageSrc: MyPurple,
   },
 ];
 
@@ -75,40 +84,17 @@ export default function Navbar() {
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
 
-  const links = mockdata.map((item) => (
-    <UnstyledButton className={classes.subLink} key={item.title}>
-      <Group wrap="nowrap" align="flex-start">
-        <ThemeIcon size={34} variant="default" radius="md">
-          <item.icon
-            style={{ width: rem(22), height: rem(22) }}
-            color={theme.colors.blue[6]}
-          />
-        </ThemeIcon>
-        <div>
-          <Text size="sm" fw={500}>
-            {item.title}
-          </Text>
-          <Text size="xs" c="dimmed">
-            {item.description}
-          </Text>
-        </div>
-      </Group>
-    </UnstyledButton>
-  ));
-
   const router = useRouter();
   return (
     <Box className="bg-slate-150 py-4">
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          <Link  href={'/'}>
-          <Image src={myLogo} alt="logo" width={40} height={40}/>
+          <Link href={"/"}>
+            <Image src={myLogo} alt="logo" width={40} height={40} />
           </Link>
-          
+
           <Group h="100%" gap={0} visibleFrom="sm">
-            <a href="#" className={classes.link}>
-              Home
-            </a>
+            {/* icons hover` */}
             <HoverCard
               width={600}
               position="bottom"
@@ -117,7 +103,7 @@ export default function Navbar() {
               withinPortal
             >
               <HoverCard.Target>
-                <a href="#" className={classes.link}>
+                <Link href="#" className={classes.link}>
                   <Center inline>
                     <Box component="span" mr={5}>
                       Features
@@ -127,49 +113,77 @@ export default function Navbar() {
                       color={theme.colors.blue[6]}
                     />
                   </Center>
-                </a>
+                </Link>
               </HoverCard.Target>
 
               <HoverCard.Dropdown style={{ overflow: "hidden" }}>
-                <Group justify="space-between" px="md">
-                  <Text fw={500}>Features</Text>
-                  <Anchor href="#" fz="xs">
-                    View all
-                  </Anchor>
+                <Group className="items-end">
+                  {MyIcondata.map((items) => (
+                    <Box display={"block"} className="text-center">
+                      <Title order={5} mb={5}>
+                        {items.name}
+                      </Title>
+                      <Image
+                        src={items.imageSrc}
+                        alt={items.name}
+                        width={170}
+                        className="cursor-pointer"
+                      />
+                    </Box>
+                  ))}
                 </Group>
-
-                <Divider my="sm" />
-
-                <SimpleGrid cols={2} spacing={0}>
-                  {links}
-                </SimpleGrid>
-
-                <div className={classes.dropdownFooter}>
-                  <Group justify="space-between">
-                    <div>
-                      <Text fw={500} fz="sm">
-                        Get started
-                      </Text>
-                      <Text size="xs" c="dimmed">
-                        Their food sources have decreased, and their numbers
-                      </Text>
-                    </div>
-                    <Button variant="default">Get started</Button>
-                  </Group>
-                </div>
               </HoverCard.Dropdown>
             </HoverCard>
-            <a href="#" className={classes.link}>
-              Learn
-            </a>
-            <a href="#" className={classes.link}>
-              Academy
-            </a>
+
+            {/* ui kits */}
+            <HoverCard
+              width={600}
+              position="bottom"
+              radius="md"
+              shadow="md"
+              withinPortal
+            >
+              <HoverCard.Target>
+                <Link href="#" className={classes.link}>
+                  <Center inline>
+                    <Box component="span" mr={5}>
+                      Ui-kits
+                    </Box>
+                    <IconChevronDown
+                      style={{ width: rem(16), height: rem(16) }}
+                      color={theme.colors.blue[6]}
+                    />
+                  </Center>
+                </Link>
+              </HoverCard.Target>
+
+              <HoverCard.Dropdown style={{ overflow: "hidden" }}>
+                <Group>
+                  {MyUiKitsData.map((items) => (
+                    <Box display={"block"} className="text-center">
+                      <Title order={5} mb={5}>
+                        {items.name}
+                      </Title>
+                      <Image
+                        src={items.imageSrc}
+                        alt={items.name}
+                        width={178}
+                        height={200}
+                        className="cursor-pointer"
+                      />
+                    </Box>
+                  ))}
+                </Group>
+              </HoverCard.Dropdown>
+            </HoverCard>
           </Group>
 
+          {/* login and sinup btns */}
           <Group visibleFrom="sm">
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
+            <Button variant="default" onClick={() => router.push("/login")}>
+              Log in
+            </Button>
+            <Button onClick={() => router.push("/sinup")}>Sign up</Button>
           </Group>
 
           <Burger
@@ -179,7 +193,7 @@ export default function Navbar() {
           />
         </Group>
       </header>
-
+      {/* mobile screen */}
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
@@ -191,43 +205,26 @@ export default function Navbar() {
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
-
-          <a href="#" className={classes.link}>
-            Home
-          </a>
-          <UnstyledButton className={classes.link} onClick={toggleLinks}>
-            <Center inline>
-              <Box component="span" mr={5}>
-                Features
-              </Box>
-              <IconChevronDown
-                style={{ width: rem(16), height: rem(16) }}
-                color={theme.colors.blue[6]}
-              />
-            </Center>
-          </UnstyledButton>
-          <Collapse in={linksOpened}>{links}</Collapse>
-          <a href="#" className={classes.link}>
-            Learn
-          </a>
-          <a href="#" className={classes.link}>
-            Academy
-          </a>
+          <Box
+            className="block text-center text-lg font-medium"
+          >
+            <Link href={"/"} onClick={()=> closeDrawer() }>Icons</Link>
+            <br />
+            <hr className="w-24 m-auto h-2"/>
+            <Link href={"/"}  onClick={()=> closeDrawer() }>Ui-Kits</Link>
+          </Box>
 
           <Divider my="sm" />
 
           <Group justify="center" grow pb="xl" px="md">
             <Button
               variant="default"
-              onClick={() => {
-                console.log("clicked");
-                router.push("/login");
-              }}
+              onClick={() => router.push("/login")}
               className="py-24"
             >
-              <Link href='/login'>Log in</Link>
+              Log in
             </Button>
-            <Button onClick={()=> router.push('/sinup')} style={{border: "2px solid black"}}>Sign up</Button>
+            <Button onClick={() => router.push("/sinup")}>Sign up</Button>
           </Group>
         </ScrollArea>
       </Drawer>
