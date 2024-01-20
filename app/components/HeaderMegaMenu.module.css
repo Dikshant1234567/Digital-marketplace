@@ -16,14 +16,14 @@
     font-weight: 500;
     font-size: var(--mantine-font-size-sm);
   
-    /* @media (max-width: $mantine-breakpoint-sm) {
+    @media (max-width: mantine-breakpoint-sm) {
       height: rem(42px);
       width: 100%;
-    } */
+    }
   
-    /* @mixin hover {
+    mixin hover {
       background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
-    } */
+    }
   }
   
   .subLink {
@@ -31,10 +31,10 @@
     padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
     border-radius: var(--mantine-radius-md);
   
-    /* @mixin hover {
+     mixin hover {
       background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
-    } */
-  }
+    }
+  } 
   
   .dropdownFooter {
     background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
