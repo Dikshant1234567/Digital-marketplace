@@ -19,6 +19,7 @@ import {
   rem,
   useMantineTheme,
   Title,
+  useMantineColorScheme,
 } from "@mantine/core";
 import { MantineLogo } from "@mantinex/mantine-logo";
 import { useDisclosure } from "@mantine/hooks";
@@ -42,6 +43,7 @@ import MyPicks from "../assets/icons/picks.jpg";
 import MyBlue from "../assets/ui-kits/blue.jpg";
 import MyMixed from "../assets/ui-kits/mixed.jpg";
 import MyPurple from "../assets/ui-kits/purple.jpg";
+import { useEffect } from "react";
 
 const MyIcondata = [
   {
@@ -83,6 +85,12 @@ export default function Navbar() {
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
+  const { setColorScheme, clearColorScheme, colorScheme } =
+    useMantineColorScheme();
+
+  useEffect(() => {
+    setColorScheme("dark");
+  }, []);
 
   const router = useRouter();
   return (
@@ -176,6 +184,19 @@ export default function Navbar() {
                 </Group>
               </HoverCard.Dropdown>
             </HoverCard>
+            <a href="#" className={classes.link}>
+              Learn
+            </a>
+            <a href="#" className={classes.link}>
+              Academy
+            </a>
+            <Button
+              onClick={() =>
+                setColorScheme(colorScheme === "dark" ? "light" : "dark")
+              }
+            >
+              Hello
+            </Button>
           </Group>
 
           {/* login and sinup btns */}
@@ -205,12 +226,12 @@ export default function Navbar() {
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
-          <Box
-            className="block text-center text-lg font-medium"
-          >
-            <Link href={"/"} onClick={()=> closeDrawer() }>Icons</Link>
+          <Box className="block text-center text-lg font-medium">
+            <Link href={"/"} onClick={() => closeDrawer()}>
+              Icons
+            </Link>
             <br />
-            <hr className="w-24 m-auto h-2"/>
+            <hr className="w-24 m-auto h-2" />
             <Link href={"/"}>Ui-Kits</Link>
           </Box>
 
