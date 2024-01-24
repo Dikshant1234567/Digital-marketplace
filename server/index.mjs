@@ -3,7 +3,8 @@ import cors from "cors";
 import "./loadEnvironment.mjs";
 import "express-async-errors";
 import mongoose from "mongoose";
-import posts from "./routes/posts.mjs";
+
+import {authRoutes} from './routes/authRoute.mjs'
 
 const PORT = process.env.PORT || 5050;
 const app = express();
@@ -21,8 +22,8 @@ app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
 
-// Load the /posts routes
-app.use("/posts", posts);
+
+app.use("/auth", authRoutes);
 
 // Global error handling
 app.use((err, _req, res, next) => {
