@@ -198,7 +198,7 @@ export default function Navbar() {
               }
               style={{textTransform :'capitalize'}}
             >
-              {colorScheme=== 'dark'? 'light' : 'dark'}
+              {colorScheme ? 'Dark' : 'Light'}
             </Button>
           </Group>
 

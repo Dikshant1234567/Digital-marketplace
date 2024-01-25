@@ -30,9 +30,9 @@ export const registerUser = async (req, res) => {
 
   try {
     await user.save();
-    res.status(200).send({ message: "User created successfully", success:true });
+   return res.status(200).send({ message: "User created successfully", success:true });
   } catch (error) {
-    res.status(404).send("Some Error Occured");
+ return   res.status(404).send("Some Error Occured");
   }
 };
 
