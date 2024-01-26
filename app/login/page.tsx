@@ -21,14 +21,13 @@ import {
 import { GoogleButton } from "../components/GoogleButton";
 import { TwitterButton } from "../components/TwitterButton";
 import Link from "next/link";
+import axios from "axios";
 
 export default function Sinup(props: PaperProps) {
   const form = useForm({
     initialValues: {
       email: "",
-      name: "",
       password: "",
-      terms: true,
     },
 
     validate: {
@@ -41,8 +40,8 @@ export default function Sinup(props: PaperProps) {
   });
 
   const router = useRouter();
-  const {email, name , password} = form.values
-  console.log(email , name , password)
+  const { email, password } = form.values;
+  console.log(email, password);
   return (
     <Paper radius="md" p="xl" withBorder {...props} className="mt-0 lg:mt-[8%]">
       <Text size="35px" fw={500} className="capitalize text-center mb-8">
@@ -59,20 +58,26 @@ export default function Sinup(props: PaperProps) {
       <form
         onSubmit={form.onSubmit(() => {
           alert("sumbitted");
-          router.push("/");
+
+          axios
+            .post("http://localhost:5050/auth/login", form.values)
+            .then(function (myformResponse) {
+              console.log(myformResponse);
+              if (myformResponse?.data?.success == true) {
+                alert("sumbitted");
+                console.log(myformResponse?.data?.token)
+                router.push("/");
+              }else{
+                alert('Something went wrong try again..')
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+              alert("There is some error in the sinup page");
+            });
         })}
       >
         <Stack>
-          <TextInput
-            label="Name"
-            placeholder="Your name"
-            value={form.values.name}
-            onChange={(event) =>
-              form.setFieldValue("name", event.currentTarget.value)
-            }
-            radius="md"
-          />
-
           <TextInput
             required
             label="Email"
@@ -84,7 +89,6 @@ export default function Sinup(props: PaperProps) {
             error={form.errors.email && "Invalid email"}
             radius="md"
           />
-
           <PasswordInput
             required
             label="Password"
@@ -103,10 +107,10 @@ export default function Sinup(props: PaperProps) {
 
         <Group justify="space-between" mt="xl">
           <Anchor component="button" type="button" c="dimmed" size="xs">
-            <Link href={"/sinup"}>Don't have an account? Register</Link>
+            <Link href="/sinup">Don't have an account? Register</Link>
           </Anchor>
           <Button type="submit" radius="xl">
-            Login
+            Register
           </Button>
         </Group>
       </form>
