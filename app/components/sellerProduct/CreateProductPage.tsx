@@ -22,7 +22,7 @@ function CreateProductPage() {
     initialValues: {
       productName: "",
       productDescription: "",
-      price: parseInt(""),
+      price: "",
       category: "",
       productImage: image,
     },
@@ -31,7 +31,7 @@ function CreateProductPage() {
 
   let { productDescription, productImage, productName, price, category } =
     form.values;
-  //   console.log(productDescription, productImage, productName, price, category);/
+    console.log(productDescription, productImage, productName, price, category,'pppppppp')
 
   console.log(price);
   return (
@@ -66,34 +66,29 @@ function CreateProductPage() {
       </Title>
       {/* Product details form */}
       <Box>
-        <form action="">
+        <form onSubmit={form.onSubmit((values) => console.log(values,'valuesss'))}>
           <TextInput
             label="Name"
             placeholder="Product Name"
             required
             my={12}
             value={form.values.productName}
-            onChange={(event) =>
-              form.setFieldValue("productName", event.currentTarget.value)
-            }
+            {...form.getInputProps('productName')}
           />
           <Textarea
             label="Product Description"
             required
+            placeholder="Enter description"
             value={form.values.productDescription}
-            onChange={(event) =>
-              form.setFieldValue(
-                "productDescription",
-                event.currentTarget.value
-              )
-            }
+            {...form.getInputProps('productDescription')}
           />
           <NumberInput
             label="Price in USD"
             required
             my={12}
             value={form.values.price}
-            onChange={(event) => form.setFieldValue("price", form.values.price)}
+            placeholder="Enter price"
+            {...form.getInputProps('price')}
           />
           <Select
             label="Catogry"
@@ -101,17 +96,14 @@ function CreateProductPage() {
             data={["React", "Angular", "Vue", "Svelte"]}
             value={form.values.category}
             required
-            // onChange={(event) =>
-            //   form.setFieldValue("category", event.value)
-            // }
+            {...form.getInputProps('category')}
           />
           <FileInput
             label="Select file"
             my={12}
             value={form.values.productImage}
-            // onChange={(event) =>
-            //   form.setFieldValue("productImage", setImage(event.))
-            // }
+            placeholder="Upload image"
+            {...form.getInputProps('productImage')}
           />
           <Button type="submit" variant="gradient" mr={"xs"} mt={"sm"}>
             Register
