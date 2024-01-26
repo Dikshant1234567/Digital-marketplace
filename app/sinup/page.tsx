@@ -3,7 +3,7 @@
 import { useToggle, upperFirst } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
-
+import axios from "axios";
 import {
   TextInput,
   PasswordInput,
@@ -28,7 +28,8 @@ export default function Sinup(props: PaperProps) {
     initialValues: {
       email: "",
       password: "",
-      terms: true,
+      userName: "",
+      isAdmin: false,
     },
 
     validate: {
@@ -41,8 +42,8 @@ export default function Sinup(props: PaperProps) {
   });
 
   const router = useRouter();
-  const { email, password } = form.values;
-  console.log(email, name, password);
+  const { email, userName, password } = form.values;
+  console.log(email, password, userName);
 
   return (
     <Paper radius="md" p="xl" withBorder {...props} className="mt-0 lg:mt-[8%]">
@@ -59,11 +60,35 @@ export default function Sinup(props: PaperProps) {
 
       <form
         onSubmit={form.onSubmit(() => {
-          alert("sumbitted");
-          router.push("/");
+          axios
+            .post("http://localhost:5050/auth/signup", form.values)
+            .then(function (myformResponse) {
+              console.log(myformResponse);
+              if (myformResponse?.data?.success == true) {
+                alert("sumbitted");
+                router.push("/");
+              }else{
+                alert('Something went wrong try again..')
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+              alert("There is some error in the sinup page");
+            });
         })}
       >
         <Stack>
+          <TextInput
+            required
+            label="Name"
+            placeholder="Your name"
+            value={form.values.userName}
+            onChange={(event) =>
+              form.setFieldValue("userName", event.currentTarget.value)
+            }
+            radius="md"
+          />
+
           <TextInput
             required
             label="Email"
@@ -75,6 +100,7 @@ export default function Sinup(props: PaperProps) {
             error={form.errors.email && "Invalid email"}
             radius="md"
           />
+
           <PasswordInput
             required
             label="Password"
@@ -89,20 +115,14 @@ export default function Sinup(props: PaperProps) {
             }
             radius="md"
           />
-          1
         </Stack>
 
         <Group justify="space-between" mt="xl">
           <Anchor component="button" type="button" c="dimmed" size="xs">
-            <Link href="/login">Already have an account? Login</Link>
+            <Link href={"/login"}>Already, have an account? Login</Link>
           </Anchor>
-          <Button
-            type="submit"
-            radius="xl"
-            className="border-[1]"
-            style={{ border: "2px solid black" }}
-          >
-            Register
+          <Button type="submit" radius="xl">
+            Sinup
           </Button>
         </Group>
       </form>

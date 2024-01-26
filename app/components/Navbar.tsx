@@ -89,7 +89,7 @@ export default function Navbar() {
     useMantineColorScheme();
 
   useEffect(() => {
-    setColorScheme("dark");
+    setColorScheme("light");
   }, []);
 
   const router = useRouter();
