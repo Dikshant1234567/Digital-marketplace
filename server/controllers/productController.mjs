@@ -1,26 +1,39 @@
 import Product from "../models/product.mjs";
 
+
 export const createProduct = async (req, res) => {
   const {productName, price, category, productDescription, createdBy} = req.body;
-  try {
-    const product = await Product.create({
-      productDescription,
-      productName,
-      price,
-      category,
-      createdBy,
-      productImage: {
-        data: req.file.buffer,
-        contentType: req.file.mimetype,
-        name: "uploads/" + req.file.filename,
-      },
-    });
+console.log(req.body,req.file,'ple')
 
-    await product.save();
-    return res.status(200).send({success: true});
-  } catch (e) {
-    return res.status(400).send({success: false, message: e});
+try {
+  // Assuming other form fields are available in req.body
+  const { productName, productDescription, price, category } = req.body;
+
+  // Create a new product instance
+  const newProduct = new Product({
+    productName,
+    productDescription,
+    price,
+    category,
+  });
+
+  // Attach images to the new product instance
+  if (req.files && req.files.length > 0) {
+    newProduct.productImage = req.files.map((file) => ({
+      data: file.buffer,
+      contentType: file.mimetype,
+      name: 'uploads/' + file.originalname,
+    }));
   }
+
+  // Save the new product to the database
+  await newProduct.save();
+
+  return res.status(201).json({ success: true, message: 'Product created successfully' });
+} catch (error) {
+  console.error('Error creating product:', error);
+  return res.status(500).json({ error: 'Internal Server Error' });
+}
 };
 
 export const getAllProducts = async (req, res) => {

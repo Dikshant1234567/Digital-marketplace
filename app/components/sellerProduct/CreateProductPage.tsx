@@ -10,9 +10,11 @@ import {
   Title,
   Group,
   Text,
+  Accordion,
+  Flex,
 } from "@mantine/core";
 import {useForm} from "@mantine/form";
-import {IconAt} from "@tabler/icons-react";
+import {IconAt, IconTrashFilled} from "@tabler/icons-react";
 import axios from "axios";
 import Link from "next/link";
 import React, {useState} from "react";
@@ -20,30 +22,46 @@ import React, {useState} from "react";
 export interface productType {
   productDescription: String;
   productName: String;
-  productImage: File | null;
+  productImage: Object;
   price: Number | string;
   category: String;
 }
 
 function CreateProductPage() {
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState<[]>([]);
   const form = useForm({
     initialValues: {
       productName: "",
       productDescription: "",
       price: "",
       category: "",
-      productImage: image,
+      productImage: [{ file: null }],
     },
   });
 
   function handleForm(values: productType) {
     const form_Data = new FormData();
-    // @ts-ignore
-    Object.keys(values).forEach((key) => form_Data.append(key, values[key]));
-
-    axios.post("http://localhost:5050/product/create", form_Data).then((e) => {
-      console.log(e);
+  
+    Object.keys(values).forEach((key)=> {
+      if (key !== "productImage") {
+        // @ts-ignore
+        form_Data.append(key, values[key]);
+      }
+    });
+  
+    // Check if productImage exists and is an array
+    if (values.productImage && Array.isArray(values.productImage)) {
+      values.productImage.forEach((imageObj, index) => {
+        const file = imageObj.file;
+        if (file && file instanceof File) {
+          form_Data.append(`productImage[${index}]`, file);
+        }
+      });
+    }
+  
+    axios.post("http://localhost:5050/product/create", form_Data).then((response) => {
+      alert('Created successfully')
+      // form.reset() To reset the form after submitting
     });
   }
 
@@ -101,6 +119,7 @@ function CreateProductPage() {
             {...form.getInputProps("price")}
           />
           <Select
+            my={12}
             label="Catogry"
             placeholder="Pick value"
             data={["React", "Angular", "Vue", "Svelte"]}
@@ -108,13 +127,45 @@ function CreateProductPage() {
             required
             {...form.getInputProps("category")}
           />
-          <FileInput
-            label="Select file"
-            my={12}
-            value={form.values.productImage}
-            placeholder="Upload image"
-            {...form.getInputProps("productImage")}
-          />
+          <Accordion my={12} mt={30} variant="separated" defaultValue="1">
+            <Accordion.Item value="1">
+              <Accordion.Control>Upload Product images</Accordion.Control>
+              <Accordion.Panel>
+                {form.values.productImage.map((file, index) => (
+                  <>
+                    <Flex
+                      justify="space-between"
+                      gap={"md"}
+                      align="center"
+                      style={{height: "90px"}}>
+                      <FileInput
+                        // label="Select file"
+                        style={{flexGrow: "1"}}
+                        my={12}
+                        clearable
+                        accept=""
+                        value={file}
+                        placeholder="Upload image"
+                        {...form.getInputProps(`productImage.${index}.file`)}
+                      />
+                      <div style={{cursor: "pointer"}}>
+                        <IconTrashFilled
+                          color={"red"}
+                          colorProfile={"red"}
+                          onClick={() =>
+                            form.removeListItem("productImage", index)
+                          }></IconTrashFilled>
+                      </div>
+                    </Flex>
+                  </>
+                ))}
+                <Button onClick={() => form.insertListItem("productImage", {file: null})}>
+                  Add Image
+                </Button>
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
+
           <Button type="submit" variant="gradient" mr={"xs"} mt={"sm"}>
             Register
           </Button>

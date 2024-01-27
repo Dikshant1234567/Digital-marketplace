@@ -4,7 +4,7 @@ import { upload } from "../util/utils.mjs";
 
 export const productRoutes = express.Router();
 
-productRoutes.post("/create", upload.single("productImage") , createProduct);
+productRoutes.post("/create", upload.any("productImage") , createProduct);
 productRoutes.get("/allproducts", getAllProducts);
 productRoutes.get("/:id", getSingleProduct);
 
