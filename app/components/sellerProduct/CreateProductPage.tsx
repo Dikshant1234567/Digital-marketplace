@@ -133,8 +133,7 @@ function CreateProductPage() {
             handleForm(values);
           })}>
           <TextInput
-            label="Name"
-            placeholder="Product Name"
+            label="Product Name"
             required
             my={12}
             value={form.values.productName}
