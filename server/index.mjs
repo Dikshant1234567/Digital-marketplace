@@ -3,6 +3,7 @@ import cors from "cors";
 import "./loadEnvironment.mjs";
 import "express-async-errors";
 import mongoose from "mongoose";
+import bodyParser from "body-parser";
 
 import {authRoutes} from './routes/authRoute.mjs'
 import { productRoutes } from "./routes/productRoute.mjs";
@@ -14,6 +15,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:true}))
+
 
 mongoose.set("strictQuery", true);
 mongoose

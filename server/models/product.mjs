@@ -17,11 +17,11 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  productImage: {
+  productImage: [{
       data: Buffer,
       contentType: String,
       name:String
-  },
+  }],
   uploadTime: {
     type: Date,
     default: Date.now,
