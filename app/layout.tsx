@@ -5,6 +5,7 @@ import './/globals.css'
 
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export const metadata = {
   title: 'My Mantine app',

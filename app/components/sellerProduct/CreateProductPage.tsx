@@ -13,6 +13,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconAt } from "@tabler/icons-react";
+import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -31,9 +32,9 @@ function CreateProductPage() {
 
   let { productDescription, productImage, productName, price, category } =
     form.values;
-    console.log(productDescription, productImage, productName, price, category,'pppppppp')
+  //     console.log(productDescription, productImage, productName, price, category,'pppppppp')
 
-  console.log(price);
+  //   console.log(price);
   return (
     <Box>
       <Group my={10} align="baseline">
@@ -66,21 +67,29 @@ function CreateProductPage() {
       </Title>
       {/* Product details form */}
       <Box>
-        <form onSubmit={form.onSubmit((values) => console.log(values,'valuesss'))}>
+        <form
+          onSubmit={form.onSubmit((values) => {
+            // axios
+            //   .post(`http://localhost:5050/product/allproducts`, values)
+            //   .then((response) => console.log(response))
+            //   .catch((e) =>
+            //     console.log(e, "This is error in CreateProduct form...")
+            //   );
+          })}
+        >
           <TextInput
-            label="Name"
-            placeholder="Product Name"
+            label="Product Name"
             required
             my={12}
             value={form.values.productName}
-            {...form.getInputProps('productName')}
+            {...form.getInputProps("productName")}
           />
           <Textarea
             label="Product Description"
             required
             placeholder="Enter description"
             value={form.values.productDescription}
-            {...form.getInputProps('productDescription')}
+            {...form.getInputProps("productDescription")}
           />
           <NumberInput
             label="Price in USD"
@@ -88,7 +97,7 @@ function CreateProductPage() {
             my={12}
             value={form.values.price}
             placeholder="Enter price"
-            {...form.getInputProps('price')}
+            {...form.getInputProps("price")}
           />
           <Select
             label="Catogry"
@@ -96,14 +105,14 @@ function CreateProductPage() {
             data={["React", "Angular", "Vue", "Svelte"]}
             value={form.values.category}
             required
-            {...form.getInputProps('category')}
+            {...form.getInputProps("category")}
           />
           <FileInput
             label="Select file"
             my={12}
             value={form.values.productImage}
-            placeholder="Upload image"
-            {...form.getInputProps('productImage')}
+            placeholder="Product image"
+            {...form.getInputProps("productImage")}
           />
           <Button type="submit" variant="gradient" mr={"xs"} mt={"sm"}>
             Register
