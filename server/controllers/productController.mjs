@@ -3,7 +3,6 @@ import { promises as fsPromises } from 'fs';
 
 export const createProduct = async (req, res) => {
   const {productName, price, category, productDescription, createdBy} = req.body;
-  console.log(req.body, req.file, "ple");
 
   try {
     // Assuming other form fields are available in req.body
@@ -16,7 +15,6 @@ export const createProduct = async (req, res) => {
       price,
       category,
     });
-console.log(req.files,'fileeeeeeee')
     // Attach images to the new product instance
     if (req.files && req.files.length > 0) {
       newProduct.productImage = req.files.map((file,index) => ({
@@ -54,7 +52,6 @@ export const getAllProducts = async (req, res) => {
         },
       },
     ]);
-    console.log(data, "dataaaaaa");
     return res.status(200).send({success: true, data: data});
   } catch (e) {
     return res.status(400).send({success: false, message: e});
@@ -63,8 +60,6 @@ export const getAllProducts = async (req, res) => {
 
 export const getSingleProduct = async (req, res) => {
   const id = req.params.id;
-
-  console.log(id, "iddd");
   try {
     const data = await Product.findById(id);
     if (data) {
@@ -78,10 +73,8 @@ export const getSingleProduct = async (req, res) => {
 };
 
 export const updateProduct = async (req, res) => {
-  console.log('here','aaaaaa')
   const productId = req.params.id;
   const updateData = req.body; 
-  console.log(updateData,'updateDDD')
   try {
     // Find the product by ID
     const existingProduct = await Product.findById(productId);
@@ -110,7 +103,6 @@ if (updateData.deletedImageIds) {
           const filePath = deletedImage.name;
           try {
             await fsPromises.unlink(filePath);
-            console.log(`Deleted file: ${filePath}`);
           } catch (error) {
             console.error(`Error deleting file: ${filePath}`, error);
           }
@@ -134,7 +126,6 @@ if (updateData.deletedImageIds) {
     if (req.files && req.files.length > 0) {
       req.files.forEach((updatedFile, index) => {
         const indexInProductImageArray = parseInt(updatedFile.fieldname.split('[')[1].split(']')[0], 10);
-        console.log('Received index:', indexInProductImageArray);
 
         const existingImage = existingProduct.productImage[indexInProductImageArray];
 

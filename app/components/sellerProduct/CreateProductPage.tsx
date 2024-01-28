@@ -45,10 +45,12 @@ function CreateProductPage() {
   
   // }
 
+
+  //OPEN THIS USEEFFECT AND REPLACE ID IN API TO SEE AN EXISTING PRODUCT
   useEffect(() => {
     let data = null;
      axios
-      .get("http://localhost:5050/product/65b66b2650569db6636c8a09")
+      .get("http://localhost:5050/product/65b66dc7e3d540ebd193f152")
       .then((e) => {
         data = e.data.data;
 
@@ -67,7 +69,6 @@ function CreateProductPage() {
         form.setInitialValues(updateData);
         form.setValues(updateData);
 
-        console.log(form.values, "UseEff", productImageData,updateData);
       });  }, []);
 
   function handleForm(values: productType) {
@@ -95,13 +96,12 @@ function CreateProductPage() {
       form_Data.append('deletedImageIds', JSON.stringify(deleteImage))
     }
 
-    axios.post("http://localhost:5050/product/update/65b66b2650569db6636c8a09", form_Data).then((response) => {
+    axios.post("http://localhost:5050/product/create", form_Data).then((response) => {
       alert("Created successfully");
       // form.reset() To reset the form after submitting
     });
   }
 
-console.log(deleteImage,'delllllll')
   return (
     <Box>
       <Group my={10} align="baseline">
@@ -200,11 +200,9 @@ console.log(deleteImage,'delllllll')
                   );
                 })}
 
-                <Flex>{form.values?.productImage?.map(e=> (e.name && <img key={Math.random()} width={"100px"} height={"100px"} src={`http://localhost:5050/${e.name}`} />) )}</Flex>
+                <Flex>{form.values?.productImage?.map(e=> (e.name && <img key={Math.random()} width={"100px"} height={"100px"} src={`http://localhost:5050/uploads/${e.name}`} />) )}</Flex>
                 <Button onClick={() =>{ form.insertListItem("productImage", {})
-              
-              console.log(form.values,'ppppppp')
-              }}>
+                            }}>
                   Add Image
                 </Button>
               </Accordion.Panel>
