@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import {
   TextInput,
@@ -17,7 +18,7 @@ import {useForm} from "@mantine/form";
 import {IconAt, IconTrashFilled} from "@tabler/icons-react";
 import axios from "axios";
 import Link from "next/link";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 export interface productType {
   productDescription: String;
@@ -29,42 +30,78 @@ export interface productType {
 
 function CreateProductPage() {
   const [image, setImage] = useState<[]>([]);
+  const[deleteImage,setDeleteImage]=useState([])
   const form = useForm({
     initialValues: {
       productName: "",
       productDescription: "",
       price: "",
       category: "",
-      productImage: [{ file: null }],
+      productImage: [{}],
     },
   });
 
+  // async function fetchSingleProduct() {
+  
+  // }
+
+  useEffect(() => {
+    let data = null;
+     axios
+      .get("http://localhost:5050/product/65b66b2650569db6636c8a09")
+      .then((e) => {
+        data = e.data.data;
+
+        let productImageData = data?.productImage?.map((e: any) => {
+          return {...e};
+        });
+
+        let updateData = {
+          productName: data.productName,
+          productDescription: data.productDescription,
+          price: data.price,
+          category: data.category,
+          productImage: productImageData,
+        };
+
+        form.setInitialValues(updateData);
+        form.setValues(updateData);
+
+        console.log(form.values, "UseEff", productImageData,updateData);
+      });  }, []);
+
   function handleForm(values: productType) {
     const form_Data = new FormData();
-  
-    Object.keys(values).forEach((key)=> {
+
+    Object.keys(values).forEach((key) => {
       if (key !== "productImage") {
         // @ts-ignore
         form_Data.append(key, values[key]);
       }
     });
-  
+
     // Check if productImage exists and is an array
     if (values.productImage && Array.isArray(values.productImage)) {
-      values.productImage.forEach((imageObj, index) => {
+      values.productImage.forEach((imageObj,index) => {
+        
         const file = imageObj.file;
-        if (file && file instanceof File) {
+        if (file) {
           form_Data.append(`productImage[${index}]`, file);
         }
       });
     }
-  
-    axios.post("http://localhost:5050/product/create", form_Data).then((response) => {
-      alert('Created successfully')
+
+    if(true){
+      form_Data.append('deletedImageIds', JSON.stringify(deleteImage))
+    }
+
+    axios.post("http://localhost:5050/product/update/65b66b2650569db6636c8a09", form_Data).then((response) => {
+      alert("Created successfully");
       // form.reset() To reset the form after submitting
     });
   }
 
+console.log(deleteImage,'delllllll')
   return (
     <Box>
       <Group my={10} align="baseline">
@@ -131,35 +168,43 @@ function CreateProductPage() {
             <Accordion.Item value="1">
               <Accordion.Control>Upload Product images</Accordion.Control>
               <Accordion.Panel>
-                {form.values.productImage.map((file, index) => (
-                  <>
-                    <Flex
-                      justify="space-between"
-                      gap={"md"}
-                      align="center"
-                      style={{height: "90px"}}>
-                      <FileInput
-                        // label="Select file"
-                        style={{flexGrow: "1"}}
-                        my={12}
-                        clearable
-                        accept=""
-                        value={file}
-                        placeholder="Upload image"
-                        {...form.getInputProps(`productImage.${index}.file`)}
-                      />
-                      <div style={{cursor: "pointer"}}>
-                        <IconTrashFilled
-                          color={"red"}
-                          colorProfile={"red"}
-                          onClick={() =>
-                            form.removeListItem("productImage", index)
-                          }></IconTrashFilled>
-                      </div>
-                    </Flex>
-                  </>
-                ))}
-                <Button onClick={() => form.insertListItem("productImage", {file: null})}>
+                {form.values?.productImage?.map((name, index) => {
+                  return (
+                    <div key={index.toString()}>
+                      <Flex
+                        justify="space-between"
+                        gap={"md"}
+                        align="center"
+                        style={{height: "90px"}}>
+                        <FileInput
+                        capture
+                          style={{flexGrow: "1"}}
+                          my={12}
+                          clearable
+                          accept="image/png,image/jpeg"
+                          // value={name}
+                          placeholder={name.name ? name.name : "Upload Image"}
+                          {...form.getInputProps(`productImage.${index}.file`)}
+                        />
+                        <div style={{cursor: "pointer"}}>
+                          <IconTrashFilled
+                            color={"red"}
+                            colorProfile={"red"}
+                            onClick={() =>{
+                              form.removeListItem("productImage", index)
+                              setDeleteImage([...deleteImage,name._id])}
+                            }></IconTrashFilled>
+                        </div>
+                      </Flex>
+                    </div>
+                  );
+                })}
+
+                <Flex>{form.values?.productImage?.map(e=> (e.name && <img key={Math.random()} width={"100px"} height={"100px"} src={`http://localhost:5050/${e.name}`} />) )}</Flex>
+                <Button onClick={() =>{ form.insertListItem("productImage", {})
+              
+              console.log(form.values,'ppppppp')
+              }}>
                   Add Image
                 </Button>
               </Accordion.Panel>

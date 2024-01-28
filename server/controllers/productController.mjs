@@ -1,4 +1,5 @@
 import Product from "../models/product.mjs";
+import { promises as fsPromises } from 'fs';
 
 export const createProduct = async (req, res) => {
   const {productName, price, category, productDescription, createdBy} = req.body;
@@ -15,13 +16,13 @@ export const createProduct = async (req, res) => {
       price,
       category,
     });
-
+console.log(req.files,'fileeeeeeee')
     // Attach images to the new product instance
     if (req.files && req.files.length > 0) {
-      newProduct.productImage = req.files.map((file) => ({
+      newProduct.productImage = req.files.map((file,index) => ({
         data: file.buffer,
         contentType: file.mimetype,
-        name: "uploads/" + file.originalname,
+        name:  file.originalname,
       }));
     }
 
@@ -73,5 +74,94 @@ export const getSingleProduct = async (req, res) => {
     }
   } catch (e) {
     return res.status(400).send({success: false, message: e});
+  }
+};
+
+export const updateProduct = async (req, res) => {
+  console.log('here','aaaaaa')
+  const productId = req.params.id;
+  const updateData = req.body; 
+  console.log(updateData,'updateDDD')
+  try {
+    // Find the product by ID
+    const existingProduct = await Product.findById(productId);
+
+    if (!existingProduct) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    // Update fields other than productImage
+    existingProduct.productName = updateData.productName;
+    existingProduct.productDescription = updateData.productDescription;
+    existingProduct.price = updateData.price;
+    existingProduct.category = updateData.category;
+
+// Handle deletion of images based on _id array
+if (updateData.deletedImageIds) {
+  try {
+    const parsedDeletedImageIds = JSON.parse(updateData.deletedImageIds);
+    if (Array.isArray(parsedDeletedImageIds)) {
+      parsedDeletedImageIds.forEach(async (deletedImageId) => {
+        // Find the image by _id
+        const deletedImage = existingProduct.productImage.find(image => image._id.toString() === deletedImageId);
+
+        if (deletedImage) {
+          // Remove the file from the 'uploads' folder
+          const filePath = deletedImage.name;
+          try {
+            await fsPromises.unlink(filePath);
+            console.log(`Deleted file: ${filePath}`);
+          } catch (error) {
+            console.error(`Error deleting file: ${filePath}`, error);
+          }
+
+          // Filter out the image with the specified _id
+          existingProduct.productImage = existingProduct.productImage.filter(image => image._id.toString() !== deletedImageId);
+        }
+      });
+    }
+  } catch (error) {
+    if (error instanceof SyntaxError) {
+      console.error('Error parsing deletedImageIds: Invalid JSON format');
+    } else {
+      console.error('Error parsing deletedImageIds:', error);
+    }
+    // Handle the error as needed
+  }
+}
+
+    // Handle productImage updates
+    if (req.files && req.files.length > 0) {
+      req.files.forEach((updatedFile, index) => {
+        const indexInProductImageArray = parseInt(updatedFile.fieldname.split('[')[1].split(']')[0], 10);
+        console.log('Received index:', indexInProductImageArray);
+
+        const existingImage = existingProduct.productImage[indexInProductImageArray];
+
+        // If the index exists in the existing product's images, replace it
+        if (existingImage) {
+          existingImage.data = updatedFile.buffer;
+          existingImage.contentType = updatedFile.mimetype;
+          existingImage.name = "uploads/" + updatedFile.originalname;
+        } else {
+          // If the index doesn't exist, add it to the images array
+          existingProduct.productImage[indexInProductImageArray] = {
+            data: updatedFile.buffer,
+            contentType: updatedFile.mimetype,
+            name: "uploads/" + updatedFile.originalname,
+          };
+        }
+      });
+    }
+
+
+
+    // Save the updated product to the database
+    const updatedProduct = await existingProduct.save();
+
+    return res.status(200).json(updatedProduct);
+  } catch (error) {
+    console.error('Error updating product:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 };

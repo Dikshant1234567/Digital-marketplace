@@ -7,7 +7,7 @@ export const upload = multer({
     destination: "uploads",
     filename: (req, file, cb) => {
       const name = file.originalname;
-      cb(null, `${new Date().getTime()}-${name}`);
+      cb(null, `${name}`);
     },
   }),
 
