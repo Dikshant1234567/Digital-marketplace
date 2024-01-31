@@ -18,6 +18,7 @@ import {useForm} from "@mantine/form";
 import {IconAt, IconTrashFilled} from "@tabler/icons-react";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, {useEffect, useState} from "react";
 
 export interface productType {
@@ -31,6 +32,7 @@ export interface productType {
 function CreateProductPage() {
   const [image, setImage] = useState<[]>([]);
   const[deleteImage,setDeleteImage]=useState([])
+  const router = useRouter()
   const form = useForm({
     initialValues: {
       productName: "",
@@ -208,7 +210,7 @@ function CreateProductPage() {
             </Accordion.Item>
           </Accordion>
 
-          <Button type="submit" variant="gradient" mr={"xs"} mt={"sm"}>
+          <Button type="submit" variant="gradient" mr={"xs"} mt={"sm"} onClick={()=> router.push('/')}>
             Register
           </Button>
         </form>

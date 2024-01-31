@@ -17,6 +17,7 @@ import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
 import "@mantine/carousel/styles.css";
 import classes from "./CardsCarousel.module.css";
+import { useRouter } from "next/navigation";
 
 // define types
 type ProductImg = {
@@ -24,35 +25,47 @@ type ProductImg = {
   name: String;
   _id: String;
 };
-type MyValuesProps = {
-  category: String;
+
+type MyData = {
   price: number;
   productDescription: String;
   productName: String;
   uploadTime: String;
   productImage: Array<ProductImg>;
+  _id: String;
 };
-type ProductImgType = {
-  contentType: String;
-  name: String;
+
+type MyValuesProps = {
+  category: String;
+  documents: Array<MyData>;
 };
+
 // MY BOX FUNCTION
 function RowBox(props: MyValuesProps) {
-  const { category, price, productDescription, productName, productImage } =
-    props;
-
-  const [imageUrl, setImageUrl] = useState<String>("");
+  const router = useRouter();
+  const [propsData, setPropsData] = useState<MyData>();
 
   useEffect(() => {
-    productImage.map((item) =>setImageUrl(item.name) );
+    props.documents.map((i) => {
+      // console.log(i);
+      setPropsData(i);
+    });
   }, []);
 
-//   console.log(Object.values(imageUrl) , Object.keys(imageUrl));
-console.log(imageUrl)
+  // console.log(Object.values(propsData))
+  // console.log(props.documents , typeof props.documents)
+  // console.log(typeof propsData , propsData)
+  // console.log(propsData?._id)
+  // console.log(propsData?.productImage.map(i => i.name))
+  const imageUrl = propsData?.productImage.map(i => i.name)
 
   return (
     <>
       <Paper
+        onClick={() => {
+          alert(propsData?._id);
+          router.push(`/productinfo/${propsData?._id}`);
+        }}
         ml={"5%"}
         mb={"lg "}
         // w={"200"}
@@ -64,9 +77,9 @@ console.log(imageUrl)
           background: "#F5F5DC",
         }}
       >
-        <Image
-        //   src={demoimage}
-            src={'imageUrl'}
+        {/* <Image
+          src={}
+          // src={`http://localhost:5050/uploads/${name}`}
           alt="produc1"
           width={200}
           height={180}
@@ -75,15 +88,22 @@ console.log(imageUrl)
             height: "auto",
             // width: "100%",
             borderRadius: "5px",
-          }}
-        />
+          }} */}
+        {/* /> */}
+        
+        <img
+        src={`http://localhost:5050/uploads/${imageUrl}`}
+        alt="productImage"
+        width={200}
+        height={200}
+      />
         <Text
           ml={8}
           fz={"xl"}
           fw={"bold"}
           style={{ textTransform: "capitalize" }}
         >
-          {productName}
+          {propsData?.productName}
         </Text>
         <Text
           ml={8}
@@ -93,10 +113,10 @@ console.log(imageUrl)
           fs={"italic"}
           style={{ textTransform: "capitalize" }}
         >
-          {productDescription}
+          {propsData?.productDescription}
         </Text>
         <Text ml={8} fz={"md"} fw={"bold"}>
-          ${price}
+          ${propsData?.price}
         </Text>
       </Paper>
     </>

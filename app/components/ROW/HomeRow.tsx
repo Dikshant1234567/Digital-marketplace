@@ -25,15 +25,21 @@ type ProductImg = {
   name: String;
   _id: String;
 };
-type MyValuesProps = {
-  category: String;
+
+
+type MyData ={
   price: number;
   productDescription: String;
   productName: String;
   uploadTime: String;
   productImage: Array<ProductImg>;
-};
+  _id : String;
+}
 
+type MyValuesProps = {
+  category: String;
+  documents : Array<MyData>;
+};
 
 
 function HomeRow() {
@@ -45,7 +51,7 @@ function HomeRow() {
     axios
       .get(`http://localhost:5050/product/allproducts`)
       .then((response) => {
-        setMyvalues(response?.data?.data);
+        setMyvalues(response.data?.data);
       })
       .catch((e) => console.log(e, "This is error in CreateProduct form..."));
   }, []);
@@ -55,14 +61,9 @@ function HomeRow() {
   return (
     <>
       {myValues &&
-        myValues.map((items: MyValuesProps, i) => {
-          const {
-            category,
-            price,
-            productDescription,
-            productName,
-            productImage,
-          } = items;
+        myValues.map((items : MyValuesProps, i) => {
+          const { category } = items;
+          // console.log(items);
           return (
             <Box
               mt={"2.5rem"}
@@ -89,64 +90,35 @@ function HomeRow() {
                   Show more &#8594;
                 </Box>
               </Flex>
-              {/* slider div  */}
+
+
+              {/* Slider   */}
 
               <Box mt={"sm"} style={{ overflowX: "hidden" }}>
                 <Carousel
                   draggable
                   withKeyboardEvents
                   controlsOffset="xs"
-                  // slidesToScroll={1}
                   height={300}
                   slideSize={{ base: "100%", sm: "50%", md: "50%" }}
-                  // slideGap={{ base: 0, sm: "sm" }}
-                  // align={0.03}
                   slideGap={{ base: rem(2), sm: "xl" }}
                   align="start"
                   slidesToScroll={mobile ? 1 : 2}
                 >
                   <Carousel.Slide>
-                    <RowBox
-                      price={price}
-                      productDescription={productDescription}
-                      productName={productName}
-                      productImage={productImage}
-                      category={category}
-                      uploadTime={Date.now().toString()}
-                    />
+                    <RowBox {...items}  />
                   </Carousel.Slide>
 
                   <Carousel.Slide>
-                    <RowBox
-                      price={price}
-                      productDescription={productDescription}
-                      productName={productName}
-                      productImage={productImage}
-                      category={category}
-                      uploadTime={Date.now().toString()}
-                    />
+                    <RowBox {...items} />
                   </Carousel.Slide>
 
                   <Carousel.Slide>
-                    <RowBox
-                      price={price}
-                      productDescription={productDescription}
-                      productName={productName}
-                      productImage={productImage}
-                      category={category}
-                      uploadTime={Date.now().toString()}
-                    />
+                    <RowBox {...items} />
                   </Carousel.Slide>
 
                   <Carousel.Slide>
-                    <RowBox
-                      price={price}
-                      productDescription={productDescription}
-                      productName={productName}
-                      productImage={productImage}
-                      category={category}
-                      uploadTime={Date.now().toString()}
-                    />
+                    <RowBox {...items} />
                   </Carousel.Slide>
                 </Carousel>
               </Box>

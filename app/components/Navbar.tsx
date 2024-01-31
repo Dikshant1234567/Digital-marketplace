@@ -20,6 +20,8 @@ import {
   useMantineTheme,
   Title,
   useMantineColorScheme,
+  ActionIcon,
+  useComputedColorScheme,
 } from "@mantine/core";
 import { MantineLogo } from "@mantinex/mantine-logo";
 import { useDisclosure } from "@mantine/hooks";
@@ -44,6 +46,10 @@ import MyBlue from "../assets/ui-kits/blue.jpg";
 import MyMixed from "../assets/ui-kits/mixed.jpg";
 import MyPurple from "../assets/ui-kits/purple.jpg";
 import { useEffect } from "react";
+import cx from "clsx";
+// import { ActionIcon, useMantineColorScheme, useComputedColorScheme, Group } from '@mantine/core';
+import { IconSun, IconMoon } from "@tabler/icons-react";
+import classesDarkLight from "./ActionToggle.module.css";
 
 const MyIcondata = [
   {
@@ -127,7 +133,11 @@ export default function Navbar() {
               <HoverCard.Dropdown style={{ overflow: "hidden" }}>
                 <Group className="items-end">
                   {MyIcondata.map((items) => (
-                    <Box display={"block"} className="text-center" key={items.name}>
+                    <Box
+                      display={"block"}
+                      className="text-center"
+                      key={items.name}
+                    >
                       <Title order={5} mb={5}>
                         {items.name}
                       </Title>
@@ -168,7 +178,11 @@ export default function Navbar() {
               <HoverCard.Dropdown style={{ overflow: "hidden" }}>
                 <Group>
                   {MyUiKitsData.map((items) => (
-                    <Box display={"block"} className="text-center" key={items.name}>
+                    <Box
+                      display={"block"}
+                      className="text-center"
+                      key={items.name}
+                    >
                       <Title order={5} mb={5}>
                         {items.name}
                       </Title>
@@ -192,14 +206,25 @@ export default function Navbar() {
               Log in
             </Button>
             <Button onClick={() => router.push("/sinup")}>Sign up</Button>
-            <Button
-              onClick={() =>
-                setColorScheme(colorScheme === "light" ? "dark" : "light")
-              }
-              style={{textTransform :'capitalize'}}
-            >
-              {colorScheme ? 'Dark' : 'Light'}
-            </Button>
+            <Group justify="center">
+              <ActionIcon radius={'xl'}
+                onClick={() =>
+                  setColorScheme(colorScheme === "light" ? "dark" : "light")
+                }
+                variant="default"
+                size="xl"
+                aria-label="Toggle color scheme"
+              >
+                <IconSun
+                  className={cx(classesDarkLight.icon, classesDarkLight.light)}
+                  stroke={1.5}
+                />
+                <IconMoon
+                  className={cx(classesDarkLight.icon, classesDarkLight.dark)}
+                  stroke={1.5}
+                />
+              </ActionIcon>
+            </Group>
           </Group>
 
           <Burger
