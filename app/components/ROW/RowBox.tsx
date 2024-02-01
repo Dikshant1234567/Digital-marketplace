@@ -57,8 +57,8 @@ function RowBox(props: MyValuesProps) {
   // console.log(typeof propsData , propsData)
   // console.log(propsData?._id)
   // console.log(propsData?.productImage.map(i => i.name))
-  const imageUrl = propsData?.productImage.map(i => i.name)
-
+  const imageUrl = propsData?.productImage.map((i) => i.name);
+  const theme = useMantineTheme();
   return (
     <>
       <Paper
@@ -69,34 +69,26 @@ function RowBox(props: MyValuesProps) {
         ml={"5%"}
         mb={"lg "}
         // w={"200"}
-        h={300}
+        h={'500'}
         style={{
           cursor: "pointer",
-          width: "100%",
+          width: "90%",
           height: "auto",
-          background: "#F5F5DC",
+          // background: "red",
+          overflow: "hidden",
         }}
       >
-        {/* <Image
-          src={}
-          // src={`http://localhost:5050/uploads/${name}`}
-          alt="produc1"
-          width={200}
-          height={180}
+        <img
+          src={`http://localhost:5050/uploads/${imageUrl}`}
+          alt="productImage"
+          width={"full"}
+          height={400}
           style={{
             overflow: "hidden",
-            height: "auto",
-            // width: "100%",
-            borderRadius: "5px",
-          }} */}
-        {/* /> */}
-        
-        <img
-        src={`http://localhost:5050/uploads/${imageUrl}`}
-        alt="productImage"
-        width={200}
-        height={200}
-      />
+            width: "100%",
+            objectFit: "cover",
+          }}
+        />
         <Text
           ml={8}
           fz={"xl"}
@@ -107,15 +99,15 @@ function RowBox(props: MyValuesProps) {
         </Text>
         <Text
           ml={8}
-          my={1}
+          // my={1}
           fz={"sm"}
           fw={"lighter"}
           fs={"italic"}
           style={{ textTransform: "capitalize" }}
         >
-          {propsData?.productDescription}
+          {propsData?.productDescription.substring(0, 65) + "..."}
         </Text>
-        <Text ml={8} fz={"md"} fw={"bold"}>
+        <Text ml={8} fz={"md"} fw={"bold"} mb={'xl'}>
           ${propsData?.price}
         </Text>
       </Paper>

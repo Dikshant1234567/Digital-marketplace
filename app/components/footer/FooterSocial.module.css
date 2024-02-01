@@ -1,0 +1,22 @@
+.footer {
+    margin-top: rem(0rem);
+  }
+  
+  .inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem .5rem;
+  
+
+  }
+
+  @media (max-width :624px) { 
+    .inner {
+      flex-direction: column;
+      
+    }
+    .footer{
+      margin-bottom: 0;
+    }
+  }

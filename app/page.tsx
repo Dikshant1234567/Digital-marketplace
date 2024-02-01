@@ -4,6 +4,7 @@ import HomeHero from "./components/HomeHero";
 import HomeRow from "./components/ROW/HomeRow";
 import CardsCarousel from "./components/ROW/CardCarousel";
 import "@mantine/carousel/styles.css";
+import Footer from "./components/footer/Footer";
 
 export default function Home() {
   return (
@@ -11,7 +12,8 @@ export default function Home() {
       <Navbar />
       <HomeHero />
       {/* <CardsCarousel/> */}
-      <HomeRow/>
+      <HomeRow />
+      <Footer />
     </>
   );
 }
