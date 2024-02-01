@@ -20,7 +20,6 @@ export default function RootLayout({
   const clientId =
     "430156770168-15g1v54bud19q9vnl553g739us5ig0t1.apps.googleusercontent.com";
     
-  console.log(clientId , 'this is clientId');
   return (
     <html lang="en">
       <head>

@@ -26,27 +26,25 @@ type ProductImg = {
   _id: String;
 };
 
-
-type MyData ={
+type MyData = {
   price: number;
   productDescription: String;
   productName: String;
   uploadTime: String;
   productImage: Array<ProductImg>;
-  _id : String;
-}
+  _id: String;
+};
 
 type MyValuesProps = {
   category: String;
-  documents : Array<MyData>;
+  documents: Array<MyData>;
 };
-
 
 function HomeRow() {
   const [myValues, setMyvalues] = useState([]);
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
-
+  const tablet = useMediaQuery(`max-width : ${theme.breakpoints.lg}`);
   useEffect(() => {
     axios
       .get(`http://localhost:5050/product/allproducts`)
@@ -57,72 +55,71 @@ function HomeRow() {
   }, []);
 
   // console.log(myValues);
+  // console.log(tablet)
 
   return (
     <>
       {myValues &&
-        myValues.map((items : MyValuesProps, i) => {
+        myValues.map((items: MyValuesProps, i) => {
           const { category } = items;
           // console.log(items);
+
           return (
-            <Box
-              mt={"2.5rem"}
-              bg={"#E2E8F0"}
-              key={i}
-              pb={20}
-              className={classes.card}
-            >
-              <Flex
-                justify="space-between"
-                align="center"
-                px={"lg"}
-                style={{ marginTop: "10px" }}
+            <>
+              <Box
+                mt={"2.5rem"}
+                key={i}
+                pb={20}
               >
-                <Box>
-                  <Title order={1} className="bg-red-300">
-                    {category}
-                  </Title>
-                  <Text fz={"sm"} fw={"lighter"} c={"gray"}>
-                    This is the head_down text
-                  </Text>
-                </Box>
-                <Box fw={"lighter"} c={"gray"} style={{ cursor: "pointer" }}>
-                  Show more &#8594;
-                </Box>
-              </Flex>
-
-
-              {/* Slider   */}
-
-              <Box mt={"sm"} style={{ overflowX: "hidden" }}>
-                <Carousel
-                  draggable
-                  withKeyboardEvents
-                  controlsOffset="xs"
-                  height={300}
-                  slideSize={{ base: "100%", sm: "50%", md: "50%" }}
-                  slideGap={{ base: rem(2), sm: "xl" }}
-                  align="start"
-                  slidesToScroll={mobile ? 1 : 2}
+                <Flex
+                  justify="space-between"
+                  align="center"
+                  px={"lg"}
+                  style={{ marginTop: "10px", width: "100%" }}
                 >
-                  <Carousel.Slide>
-                    <RowBox {...items}  />
-                  </Carousel.Slide>
+                  <Box>
+                    <Title order={1}>{category}</Title>
+                    <Text fz={"sm"} fw={"lighter"} c={"gray"}>
+                      This is the head_down text
+                    </Text>
+                  </Box>
+                 
+                </Flex>
 
-                  <Carousel.Slide>
-                    <RowBox {...items} />
-                  </Carousel.Slide>
+                {/* Slider   */}
 
-                  <Carousel.Slide>
-                    <RowBox {...items} />
-                  </Carousel.Slide>
+                <Box mt={"sm"} style={{ overflowX: "hidden" }}>
+                  <Carousel
+                    draggable
+                    withKeyboardEvents
+                    controlsOffset="xs"
+                    height={500}
+                    slideSize={{ base: "100%", sm: "50%", md: "50%" }}
+                    slideGap={{ base: rem(2), sm: "xl" }}
+                    align={"end"}
+                    // slidesToScroll={mobile ? 1 :  tablet ? 2 :2}
+                    slidesToScroll={tablet ? 2 : mobile ? 1 : 2}
+                  >
+                    <Carousel.Slide>
+                      <RowBox {...items} />
+                    </Carousel.Slide>
 
-                  <Carousel.Slide>
-                    <RowBox {...items} />
-                  </Carousel.Slide>
-                </Carousel>
+                    <Carousel.Slide>
+                      <RowBox {...items} />
+                    </Carousel.Slide>
+
+                    <Carousel.Slide>
+                      <RowBox {...items} />
+                    </Carousel.Slide>
+
+                    <Carousel.Slide>
+                      <RowBox {...items} />
+                    </Carousel.Slide>
+                  </Carousel>
+                </Box>
               </Box>
-            </Box>
+            <hr style={{ background: "#e9ecef", height: "1px" , opacity :".2" }} />
+            </>
           );
         })}
     </>
