@@ -29,9 +29,10 @@ export interface productType {
   category: String;
 }
 
-function CreateProductPage() {
+function CreateProductPage(props) {
   const [image, setImage] = useState<[]>([]);
   const[deleteImage,setDeleteImage]=useState([])
+
   const router = useRouter()
   const form = useForm({
     initialValues: {
@@ -50,28 +51,38 @@ function CreateProductPage() {
 
   //OPEN THIS USEEFFECT AND REPLACE ID IN API TO SEE AN EXISTING PRODUCT
   useEffect(() => {
-    let data = null;
-     axios
-      .get("http://localhost:5050/product/65b66dc7e3d540ebd193f152")
-      .then((e) => {
-        data = e.data.data;
-
-        let productImageData = data?.productImage?.map((e: any) => {
-          return {...e};
-        });
-
-        let updateData = {
-          productName: data.productName,
-          productDescription: data.productDescription,
-          price: data.price,
-          category: data.category,
-          productImage: productImageData,
-        };
-
-        form.setInitialValues(updateData);
-        form.setValues(updateData);
-
-      });  }, []);
+    if(props.productId){
+      let data = null;
+      axios
+       .get(`http://localhost:5050/product/${props.productId}`)
+       .then((e) => {
+         data = e.data.data;
+ 
+         let productImageData = data?.productImage?.map((e: any) => {
+           return {...e};
+         });
+ 
+         let updateData = {
+           productName: data.productName,
+           productDescription: data.productDescription,
+           price: data.price,
+           category: data.category,
+           productImage: productImageData,
+         };
+ 
+         form.setInitialValues(updateData);
+         form.setValues(updateData);
+ 
+       })}
+      
+      
+      return (()=>{
+        // props.setProductId(null)
+        console.log('called')
+      })
+      },
+    
+      []);
 
   function handleForm(values: productType) {
     const form_Data = new FormData();
@@ -98,36 +109,23 @@ function CreateProductPage() {
       form_Data.append('deletedImageIds', JSON.stringify(deleteImage))
     }
 
-    axios.post("http://localhost:5050/product/create", form_Data).then((response) => {
-      alert("Created successfully");
-      // form.reset() To reset the form after submitting
-    });
+    if(!props.productId){
+      axios.post("http://localhost:5050/product/create", form_Data).then((response) => {
+        alert("Created successfully");
+        // form.reset() To reset the form after submitting
+      });
+    }else{
+      axios.post(`http://localhost:5050/product/update/${props.productId}`, form_Data).then((response) => {
+        alert("Product updated successfully");
+        // form.reset() To reset the form after submitting
+      });
+    }
+
   }
 
   return (
     <Box>
-      <Group my={10} align="baseline">
-        <Title fz={35} fw={"600"}>
-          <Link href={"/myProduct"} style={{textDecoration: "none", color: "black"}}>
-            Myproduct
-          </Link>
-        </Title>
-        <Text fz={30}>\</Text>
-        <Title fz={25} fw={"lighter"}>
-          <Link href={"/"} style={{textDecoration: "none", color: "black"}}>
-            Order
-          </Link>
-        </Title>
-      </Group>
 
-      <Title
-        order={1}
-        my={".5rem"}
-        style={{
-          height: "4rem",
-          textTransform: "capitalize",
-          background: "default",
-        }}></Title>
       {/* Product details form */}
       <Box>
         <form
@@ -210,8 +208,8 @@ function CreateProductPage() {
             </Accordion.Item>
           </Accordion>
 
-          <Button type="submit" variant="gradient" mr={"xs"} mt={"sm"} onClick={()=> router.push('/')}>
-            Register
+          <Button type="submit" variant="gradient" mr={"xs"} mt={"sm"}>
+            {props.productId ? 'Update' : "Register"}
           </Button>
         </form>
       </Box>

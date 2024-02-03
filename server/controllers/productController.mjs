@@ -58,6 +58,22 @@ export const getAllProducts = async (req, res) => {
   }
 };
 
+
+
+export const getProductBySeller = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const data = await Product.find({createdBy:id});
+    if (data) {
+      return res.status(200).send({success: true, data: data});
+    } else {
+      return res.status(200).send({success: false, data: "Item not found"});
+    }
+  } catch (e) {
+    return res.status(400).send({success: false, message: e});
+  }
+};
+
 export const getSingleProduct = async (req, res) => {
   const id = req.params.id;
   try {
