@@ -3,17 +3,23 @@ import { useEffect, useState } from 'react';
 import { Table, ScrollArea, Button, Flex } from '@mantine/core';
 import classes from './MyOrders.module.css';
 import axios from "axios";
+import Loader from "../common/Loader";
 
 export function MyOrders({setActive,setProductId}:any) {
   const [scrolled, setScrolled] = useState(false);
   const [orders,setAllOrders]=useState([])
+  const[isLoading,setIsLoading]=useState(true)
 
   useEffect(()=>{
     setProductId(null)
     axios
-    .get("http://localhost:5050/product/seller/65b0f79a8b658b50673a6b20").then((e)=>setAllOrders(e.data.data))
+    .get("http://localhost:5050/product/seller/65b0f79a8b658b50673a6b20").then((e)=>{setAllOrders(e.data.data)
+  setIsLoading(false)
+  })
 
   },[])
+
+  
   const rows = orders?.map((row:any) => (
     <Table.Tr key={Math.random()}>
       <Table.Td>{row._id}</Table.Td>
@@ -26,8 +32,10 @@ export function MyOrders({setActive,setProductId}:any) {
   ));
 
   return (
-    <ScrollArea h={300} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
-      <Table miw={700}>
+    <>
+
+{!isLoading?  <ScrollArea h="90vh" onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+      <Table miw={700} >
         <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
           <Table.Tr>
             <Table.Th>Id</Table.Th>
@@ -36,8 +44,10 @@ export function MyOrders({setActive,setProductId}:any) {
             <Table.Th>Price</Table.Th>
           </Table.Tr>
         </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
+        <Table.Tbody>{orders.length>0 ? rows : "No orders"}</Table.Tbody>
       </Table>
-    </ScrollArea>
+    </ScrollArea> : <Loader/>
+    }
+    </>
   );
 }

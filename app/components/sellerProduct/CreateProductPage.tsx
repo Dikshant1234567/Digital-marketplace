@@ -30,7 +30,6 @@ export interface productType {
 }
 
 function CreateProductPage(props) {
-  const [image, setImage] = useState<[]>([]);
   const[deleteImage,setDeleteImage]=useState([])
 
   const router = useRouter()
@@ -43,6 +42,8 @@ function CreateProductPage(props) {
       productImage: [{}],
     },
   });
+
+  console.log(form.values,'forrrrrrrr')
 
   // async function fetchSingleProduct() {
   
@@ -98,9 +99,9 @@ function CreateProductPage(props) {
     if (values.productImage && Array.isArray(values.productImage)) {
       values.productImage.forEach((imageObj,index) => {
         
-        const file = imageObj.file;
-        if (file) {
-          form_Data.append(`productImage[${index}]`, file);
+        // const file = imageObj.file;
+        if (imageObj) {
+          form_Data.append(`productImage[${index}]`, imageObj);
         }
       });
     }
@@ -172,9 +173,10 @@ function CreateProductPage(props) {
                     <div key={index.toString()}>
                       <Flex
                         justify="space-between"
-                        gap={"md"}
+                        gap={"lg"}
                         align="center"
                         style={{height: "90px"}}>
+                       
                         <FileInput
                         capture
                           style={{flexGrow: "1"}}
@@ -183,8 +185,9 @@ function CreateProductPage(props) {
                           accept="image/png,image/jpeg"
                           // value={name}
                           placeholder={name.name ? name.name : "Upload Image"}
-                          {...form.getInputProps(`productImage.${index}.file`)}
+                          {...form.getInputProps(`productImage.${index}`)}
                         />
+                           {/* {name.file && <img height={"100px"} width={"100px"} src={URL.createObjectURL(name.file)}/>} */}
                         <div style={{cursor: "pointer"}}>
                           <IconTrashFilled
                             color={"red"}
@@ -199,8 +202,8 @@ function CreateProductPage(props) {
                   );
                 })}
 
-                <Flex>{form.values?.productImage?.map(e=> (e.name && <img key={Math.random()} width={"100px"} height={"100px"} src={`http://localhost:5050/uploads/${e.name}`} />) )}</Flex>
-                <Button onClick={() =>{ form.insertListItem("productImage", {})
+                <Flex gap={"xl"}>{form.values?.productImage?.map(e=> ((e.name || e instanceof File) && <img key={Math.random()} width={"100px"} height={"100px"} src={e.size ? URL.createObjectURL(e)  : `http://localhost:5050/uploads/${e.name}`} />) )}</Flex>
+                <Button mt={"xl"} onClick={() =>{ form.insertListItem("productImage", {})
                             }}>
                   Add Image
                 </Button>

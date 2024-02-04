@@ -7,7 +7,6 @@ function page() {
   return (
     <>
     {/* <SellerProductPage/> */}
-   
     <NavbarMinimal/>
     {/* <CreateProductPage mode="create"/> */}
     </>
