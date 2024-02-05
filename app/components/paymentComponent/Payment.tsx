@@ -109,6 +109,7 @@ function Payment() {
           margin: "0px",
           width: "372px",
           backgroundColor: "#f8f9fa",
+          opacity :".2"
         }}
       />
 
