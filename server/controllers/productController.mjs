@@ -20,7 +20,7 @@ export const createProduct = async (req, res) => {
       newProduct.productImage = req.files.map((file,index) => ({
         data: file.buffer,
         contentType: file.mimetype,
-        name:  file.originalname,
+        name: file.originalname,
       }));
     }
 
@@ -53,6 +53,22 @@ export const getAllProducts = async (req, res) => {
       },
     ]);
     return res.status(200).send({success: true, data: data});
+  } catch (e) {
+    return res.status(400).send({success: false, message: e});
+  }
+};
+
+
+
+export const getProductBySeller = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const data = await Product.find({createdBy:id});
+    if (data) {
+      return res.status(200).send({success: true, data: data});
+    } else {
+      return res.status(200).send({success: false, data: "Item not found"});
+    }
   } catch (e) {
     return res.status(400).send({success: false, message: e});
   }
@@ -94,13 +110,14 @@ if (updateData.deletedImageIds) {
   try {
     const parsedDeletedImageIds = JSON.parse(updateData.deletedImageIds);
     if (Array.isArray(parsedDeletedImageIds)) {
-      parsedDeletedImageIds.forEach(async (deletedImageId) => {
+      for(const deletedImageId of parsedDeletedImageIds){
         // Find the image by _id
         const deletedImage = existingProduct.productImage.find(image => image._id.toString() === deletedImageId);
-
+        
         if (deletedImage) {
           // Remove the file from the 'uploads' folder
-          const filePath = deletedImage.name;
+          const filePath = `uploads/${deletedImage.name}`;
+          console.log(deletedImage,filePath,'PPPPPPPPPPPPPPPPP')
           try {
             await fsPromises.unlink(filePath);
           } catch (error) {
@@ -108,9 +125,10 @@ if (updateData.deletedImageIds) {
           }
 
           // Filter out the image with the specified _id
+          console.log(existingProduct.productImage,'EXIST')
           existingProduct.productImage = existingProduct.productImage.filter(image => image._id.toString() !== deletedImageId);
         }
-      });
+      };
     }
   } catch (error) {
     if (error instanceof SyntaxError) {
@@ -133,13 +151,13 @@ if (updateData.deletedImageIds) {
         if (existingImage) {
           existingImage.data = updatedFile.buffer;
           existingImage.contentType = updatedFile.mimetype;
-          existingImage.name = "uploads/" + updatedFile.originalname;
+          existingImage.name =  updatedFile.originalname;
         } else {
           // If the index doesn't exist, add it to the images array
           existingProduct.productImage[indexInProductImageArray] = {
             data: updatedFile.buffer,
             contentType: updatedFile.mimetype,
-            name: "uploads/" + updatedFile.originalname,
+            name:  updatedFile.originalname,
           };
         }
       });
