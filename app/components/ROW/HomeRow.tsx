@@ -41,10 +41,12 @@ type MyValuesProps = {
 };
 
 function HomeRow() {
-  const [myValues, setMyvalues] = useState([]);
+  const [myValues, setMyvalues] = useState<MyValuesProps[]>();
+
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   const tablet = useMediaQuery(`max-width : ${theme.breakpoints.lg}`);
+
   useEffect(() => {
     axios
       .get(`http://localhost:5050/product/allproducts`)
@@ -52,25 +54,21 @@ function HomeRow() {
         setMyvalues(response.data?.data);
       })
       .catch((e) => console.log(e, "This is error in CreateProduct form..."));
+    // console.log(myValues);
   }, []);
 
-  // console.log(myValues);
-  // console.log(tablet)
+  // console.log(myValues, typeof myValues);
 
   return (
     <>
       {myValues &&
-        myValues.map((items: MyValuesProps, i) => {
-          const { category } = items;
-          // console.log(items);
+        myValues?.map((items: MyValuesProps, i) => {
+          const { category, documents } = items;
+          // console.log(documents);
 
           return (
-            <>
-              <Box
-                mt={"2.5rem"}
-                key={i}
-                pb={20}
-              >
+            <Box key={i}>
+              <Box mt={"2.5rem"} pb={20}>
                 <Flex
                   justify="space-between"
                   align="center"
@@ -83,10 +81,7 @@ function HomeRow() {
                       This is the head_down text
                     </Text>
                   </Box>
-                 
                 </Flex>
-
-                {/* Slider   */}
 
                 <Box mt={"sm"} style={{ overflowX: "hidden" }}>
                   <Carousel
@@ -100,26 +95,31 @@ function HomeRow() {
                     // slidesToScroll={mobile ? 1 :  tablet ? 2 :2}
                     slidesToScroll={tablet ? 2 : mobile ? 1 : 2}
                   >
+                    {/* category 1 */}
                     <Carousel.Slide>
-                      <RowBox {...items} />
+                      <RowBox {...documents} />
                     </Carousel.Slide>
 
+                    {/* category 2 */}
                     <Carousel.Slide>
-                      <RowBox {...items} />
+                      <RowBox {...documents} />
+                    </Carousel.Slide>
+                    {/* category 3 */}
+                    <Carousel.Slide>
+                      <RowBox {...documents} />
                     </Carousel.Slide>
 
+                    {/* category 4 */}
                     <Carousel.Slide>
-                      <RowBox {...items} />
-                    </Carousel.Slide>
-
-                    <Carousel.Slide>
-                      <RowBox {...items} />
+                      <RowBox {...documents} />
                     </Carousel.Slide>
                   </Carousel>
                 </Box>
               </Box>
-            <hr style={{ background: "#e9ecef", height: "1px" , opacity :".2" }} />
-            </>
+              <hr
+                style={{ background: "#e9ecef", height: "1px", opacity: ".2" }}
+              />
+            </Box>
           );
         })}
     </>
@@ -127,3 +127,50 @@ function HomeRow() {
 }
 
 export default HomeRow;
+
+{
+  /* Slider   */
+}
+
+{
+  /* <Box mt={"sm"} style={{ overflowX: "hidden" }}>
+<Carousel
+  draggable
+  withKeyboardEvents
+  controlsOffset="xs"
+  height={500}
+  slideSize={{ base: "100%", sm: "50%", md: "50%" }}
+  slideGap={{ base: rem(2), sm: "xl" }}
+  align={"end"}
+  // slidesToScroll={mobile ? 1 :  tablet ? 2 :2}
+  slidesToScroll={tablet ? 2 : mobile ? 1 : 2}
+> */
+}
+{
+  /* category 1 */
+}
+// <Carousel.Slide>
+//   <RowBox {...items} />
+// </Carousel.Slide>
+
+{
+  /* category 2 */
+}
+// <Carousel.Slide>
+//   <RowBox {...items} />
+// </Carousel.Slide>
+{
+  /* category 3 */
+}
+// <Carousel.Slide>
+//   <RowBox {...items} />
+// </Carousel.Slide>
+
+{
+  /* category 4 */
+}
+//   <Carousel.Slide>
+//     <RowBox {...items} />
+//   </Carousel.Slide>
+// </Carousel>
+// </Box>

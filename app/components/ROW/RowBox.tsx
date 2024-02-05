@@ -26,7 +26,7 @@ type ProductImg = {
   _id: String;
 };
 
-type MyData = {
+type DocumentType = {
   price: number;
   productDescription: String;
   productName: String;
@@ -35,82 +35,78 @@ type MyData = {
   _id: String;
 };
 
-type MyValuesProps = {
-  category: String;
-  documents: Array<MyData>;
-};
-
 // MY BOX FUNCTION
-function RowBox(props: MyValuesProps) {
+function RowBox(document: DocumentType[]) {
   const router = useRouter();
-  const [propsData, setPropsData] = useState<MyData>();
+  const theme = useMantineTheme();
+  const [imgName, setImgName] = useState<String>("");
 
   useEffect(() => {
-    props.documents.map((i) => {
-      // console.log(i);
-      setPropsData(i);
+    Object.values(document).map((val) => {
+      const imageUrl = val?.productImage.map((i) => i);
+      let imageLength = imageUrl.length - 1;
+      let imgValue = imageUrl[imageLength]?.name;
+      setImgName(imgValue);
     });
-  }, []);
-
-  // console.log(Object.values(propsData))
-  // console.log(props.documents , typeof props.documents)
-  // console.log(typeof propsData , propsData)
-  // console.log(propsData?._id)
-  // console.log(propsData?.productImage.map(i => i.name))
-  const imageUrl = propsData?.productImage.map((i) => i.name);
-  const theme = useMantineTheme();
+  });
+  console.log(imgName);
   return (
     <>
-      <Paper
-        onClick={() => {
-          alert(propsData?._id);
-          router.push(`/productinfo/${propsData?._id}`);
-        }}
-        ml={"5%"}
-        mb={"lg "}
-        // w={"200"}
-        h={'500'}
-        style={{
-          cursor: "pointer",
-          width: "90%",
-          height: "auto",
-          // background: "red",
-          overflow: "hidden",
-        }}
-      >
-        <img
-          src={`http://localhost:5050/uploads/${imageUrl}`}
-          alt="productImage"
-          width={"full"}
-          height={400}
-          style={{
-            overflow: "hidden",
-            width: "100%",
-            objectFit: "cover",
-          }}
-        />
-        <Text
-          ml={8}
-          fz={"xl"}
-          fw={"bold"}
-          style={{ textTransform: "capitalize" }}
-        >
-          {propsData?.productName}
-        </Text>
-        <Text
-          ml={8}
-          // my={1}
-          fz={"sm"}
-          fw={"lighter"}
-          fs={"italic"}
-          style={{ textTransform: "capitalize" }}
-        >
-          {propsData?.productDescription.substring(0, 65) + "..."}
-        </Text>
-        <Text ml={8} fz={"md"} fw={"bold"} mb={'xl'}>
-          ${propsData?.price}
-        </Text>
-      </Paper>
+      {Object.values(document).map((val, i) => {
+        return (
+          <Paper
+            key={i}
+            onClick={() => {
+              alert(val?._id);
+              router.push(`/productinfo/${val?._id}`);
+            }}
+            ml={"5%"}
+            mb={"lg "}
+            // w={"200"}
+            h={"500"}
+            style={{
+              cursor: "pointer",
+              width: "90%",
+              height: "auto",
+              // background: "red",
+              overflow: "hidden",
+            }}
+          >
+            <img
+              src={`http://localhost:5050/uploads/${imgName}`}
+              alt="productImage"
+              width={"full"}
+              height={400}
+              style={{
+                overflow: "hidden",
+                width: "100%",
+                objectFit: "cover",
+              }}
+            />
+            <Text
+              ml={8}
+              fz={"xl"}
+              fw={"bold"}
+              style={{ textTransform: "capitalize" }}
+            >
+              {val?.productName}
+            </Text>
+            <Text
+              ml={8}
+              // my={1}
+              fz={"sm"}
+              fw={"lighter"}
+              fs={"italic"}
+              style={{ textTransform: "capitalize" }}
+            >
+              {val?.productDescription.substring(0, 65) + "..."}
+            </Text>
+            <Text ml={8} fz={"md"} fw={"bold"} mb={"xl"}>
+              ${val?.price}
+            </Text>
+          </Paper>
+        );
+      })}
     </>
   );
 }

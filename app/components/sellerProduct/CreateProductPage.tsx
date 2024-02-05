@@ -14,12 +14,12 @@ import {
   Accordion,
   Flex,
 } from "@mantine/core";
-import {useForm} from "@mantine/form";
-import {IconAt, IconTrashFilled} from "@tabler/icons-react";
+import { useForm } from "@mantine/form";
+import { IconAt, IconTrashFilled } from "@tabler/icons-react";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 export interface productType {
   productDescription: String;
@@ -46,9 +46,8 @@ function CreateProductPage(props) {
   console.log(form.values,'forrrrrrrr')
 
   // async function fetchSingleProduct() {
-  
-  // }
 
+  // }
 
   //OPEN THIS USEEFFECT AND REPLACE ID IN API TO SEE AN EXISTING PRODUCT
   useEffect(() => {
@@ -106,8 +105,8 @@ function CreateProductPage(props) {
       });
     }
 
-    if(true){
-      form_Data.append('deletedImageIds', JSON.stringify(deleteImage))
+    if (true) {
+      form_Data.append("deletedImageIds", JSON.stringify(deleteImage));
     }
 
     if(!props.productId){
@@ -132,7 +131,8 @@ function CreateProductPage(props) {
         <form
           onSubmit={form.onSubmit((values) => {
             handleForm(values);
-          })}>
+          })}
+        >
           <TextInput
             label="Product Name"
             required
@@ -178,8 +178,8 @@ function CreateProductPage(props) {
                         style={{height: "90px"}}>
                        
                         <FileInput
-                        capture
-                          style={{flexGrow: "1"}}
+                          capture
+                          style={{ flexGrow: "1" }}
                           my={12}
                           clearable
                           accept="image/png,image/jpeg"
@@ -192,10 +192,11 @@ function CreateProductPage(props) {
                           <IconTrashFilled
                             color={"red"}
                             colorProfile={"red"}
-                            onClick={() =>{
-                              form.removeListItem("productImage", index)
-                              setDeleteImage([...deleteImage,name._id])}
-                            }></IconTrashFilled>
+                            onClick={() => {
+                              form.removeListItem("productImage", index);
+                              setDeleteImage([...deleteImage, name._id]);
+                            }}
+                          ></IconTrashFilled>
                         </div>
                       </Flex>
                     </div>

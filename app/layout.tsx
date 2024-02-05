@@ -5,7 +5,7 @@ import ".//globals.css";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+// import { Providers } from "./redux/Provider";
 
 export const metadata = {
   title: "My Mantine app",
@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   const clientId =
     "430156770168-15g1v54bud19q9vnl553g739us5ig0t1.apps.googleusercontent.com";
-    
+
   return (
     <html lang="en">
       <head>
@@ -28,7 +28,9 @@ export default function RootLayout({
       <body style={{ maxWidth: "1024px", margin: "auto" }}>
         <MantineProvider>
           <GoogleOAuthProvider clientId={clientId}>
-            {children}
+            {/* <Providers> */}
+              {children}
+              {/* </Providers> */}
           </GoogleOAuthProvider>
         </MantineProvider>
       </body>
