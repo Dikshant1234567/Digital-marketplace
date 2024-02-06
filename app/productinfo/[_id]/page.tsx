@@ -41,6 +41,7 @@ function page() {
   const { _id } = useParams();
   const router = useRouter();
   const [productData, setProductData] = useState<MyData>();
+  const [imgUrl, setImgUrl] = useState<String>("");
 
   //   PRODUCT FETCHING API
   useEffect(() => {
@@ -57,40 +58,34 @@ function page() {
       );
   }, []);
 
-  const imageUrl: any = productData?.productImage.map((i) => i.name);
+  useEffect(() => {
+    let imageUrl: any = productData?.productImage.map((i) => i.name);
+    console.log(imageUrl, typeof imageUrl);
 
+    if (typeof imageUrl === "object") {
+      let index: number = imageUrl?.length - 1;
+      setImgUrl(imageUrl[index]);
+    } else if (typeof imageUrl === "string") {
+      setImgUrl(imageUrl);
+    }
+  }, [productData]);
+
+  console.log(productData);
   return (
-    // <>
-    //   <p>This is page for productinfo with id {_id}</p>
-    //   <img
-    //     src={`http://localhost:5050/uploads/${imageUrl}`}
-    //     alt="productImage"
-    //     width={200}
-    //     height={200}
-    //   />
-    //   <p>{productData?.category}</p>
-    //   <p>{productData?.price}</p>
-    //   <p>{productData?.productDescription}</p>
-    //   <p>{productData?.productName}</p>
-    //   <p>{productData?.productImage.map((i) => i.contentType)}</p>
-    //   <p>{productData?.productImage.map((i) => i.name)}</p>
-    //   <p>{productData?.productImage.map((i) => i._id)}</p>
-    //   <p>{productData?.uploadTime}</p>
-    // </>
     <>
       <Navbar />
       <Container my="md" h={"80vh"}>
         <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
           <Box p={"auto"} pt={"xl"}>
             <img
-              src={`http://localhost:5050/uploads/${imageUrl}`}
+              src={`http://localhost:5050/uploads/${imgUrl}`}
               alt="productImage"
               width={"100%"}
-              height={"80%"}
+              height={"100%"}
             />
           </Box>
           <Box pt={"xl"}>
-            <Title order={1}>{productData?.productName}</Title>
+            <Title order={1} style={{textTransform : "capitalize"}}>{productData?.productName}</Title>
 
             <Text fs={"italic"} fw={"lighter"}>
               ${productData?.price}
@@ -113,7 +108,7 @@ function page() {
                       productName: `${productData?.productName}`,
                       price: `${productData?.price}`,
                       productDescription: `${productData?.productDescription}`,
-                      imgurl: `${imageUrl}`,
+                      imgurl: `${imgUrl}`,
                       id: `${productData?.productImage.map((i) => i._id)}`,
                       category: `${productData?.category}`,
                     },

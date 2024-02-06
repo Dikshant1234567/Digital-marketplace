@@ -80,7 +80,7 @@ export function NavbarMinimal() {
       <div style={{marginLeft: "10rem"}}>
         <Group pt="sm" h={"10vh"} align="baseline">
           <Title fz={35} fw={"600"}>
-            <Link href={"/myProduct"} style={{textDecoration: "none"}}>
+            <Link href={"/createProduct"} style={{textDecoration: "none"}}>
               Myproduct
             </Link>
           </Title>
@@ -96,7 +96,7 @@ export function NavbarMinimal() {
                 <Text fz={30}>\</Text>
                 <Title fz={25} fw={"lighter"}>
                   {productId ? "Edit" : "Create"}
-                </Title>{" "}
+                </Title>
               </>
             )}
         </Group>

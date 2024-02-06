@@ -54,7 +54,6 @@ function HomeRow() {
         setMyvalues(response.data?.data);
       })
       .catch((e) => console.log(e, "This is error in CreateProduct form..."));
-    // console.log(myValues);
   }, []);
 
   // console.log(myValues, typeof myValues);
@@ -64,7 +63,7 @@ function HomeRow() {
       {myValues &&
         myValues?.map((items: MyValuesProps, i) => {
           const { category, documents } = items;
-          // console.log(documents);
+          // console.log(documents, typeof documents, "documents");
 
           return (
             <Box key={i}>
@@ -92,27 +91,16 @@ function HomeRow() {
                     slideSize={{ base: "100%", sm: "50%", md: "50%" }}
                     slideGap={{ base: rem(2), sm: "xl" }}
                     align={"end"}
-                    // slidesToScroll={mobile ? 1 :  tablet ? 2 :2}
                     slidesToScroll={tablet ? 2 : mobile ? 1 : 2}
                   >
-                    {/* category 1 */}
-                    <Carousel.Slide>
-                      <RowBox {...documents} />
-                    </Carousel.Slide>
-
-                    {/* category 2 */}
-                    <Carousel.Slide>
-                      <RowBox {...documents} />
-                    </Carousel.Slide>
-                    {/* category 3 */}
-                    <Carousel.Slide>
-                      <RowBox {...documents} />
-                    </Carousel.Slide>
-
-                    {/* category 4 */}
-                    <Carousel.Slide>
-                      <RowBox {...documents} />
-                    </Carousel.Slide>
+                    {Object.values(documents).map((values, i) => {
+                      // console.log(values, i, `${category} +${i}`);
+                      return (
+                        <Carousel.Slide key={i}>
+                          <RowBox {...values} />
+                        </Carousel.Slide>
+                      );
+                    })}
                   </Carousel>
                 </Box>
               </Box>
@@ -127,50 +115,3 @@ function HomeRow() {
 }
 
 export default HomeRow;
-
-{
-  /* Slider   */
-}
-
-{
-  /* <Box mt={"sm"} style={{ overflowX: "hidden" }}>
-<Carousel
-  draggable
-  withKeyboardEvents
-  controlsOffset="xs"
-  height={500}
-  slideSize={{ base: "100%", sm: "50%", md: "50%" }}
-  slideGap={{ base: rem(2), sm: "xl" }}
-  align={"end"}
-  // slidesToScroll={mobile ? 1 :  tablet ? 2 :2}
-  slidesToScroll={tablet ? 2 : mobile ? 1 : 2}
-> */
-}
-{
-  /* category 1 */
-}
-// <Carousel.Slide>
-//   <RowBox {...items} />
-// </Carousel.Slide>
-
-{
-  /* category 2 */
-}
-// <Carousel.Slide>
-//   <RowBox {...items} />
-// </Carousel.Slide>
-{
-  /* category 3 */
-}
-// <Carousel.Slide>
-//   <RowBox {...items} />
-// </Carousel.Slide>
-
-{
-  /* category 4 */
-}
-//   <Carousel.Slide>
-//     <RowBox {...items} />
-//   </Carousel.Slide>
-// </Carousel>
-// </Box>
