@@ -26,8 +26,9 @@ type ProductImg = {
   _id: String;
 };
 
-type DocumentType = {
+type DataPropType = {
   price: number;
+  // category: String;
   productDescription: String;
   productName: String;
   uploadTime: String;
@@ -36,77 +37,71 @@ type DocumentType = {
 };
 
 // MY BOX FUNCTION
-function RowBox(document: DocumentType[]) {
+function RowBox({ ...data }: DataPropType) {
+  const { _id, price, productDescription, productImage, productName } = data;
   const router = useRouter();
   const theme = useMantineTheme();
   const [imgName, setImgName] = useState<String>("");
 
   useEffect(() => {
-    Object.values(document).map((val) => {
-      const imageUrl = val?.productImage.map((i) => i);
-      let imageLength = imageUrl.length - 1;
-      let imgValue = imageUrl[imageLength]?.name;
-      setImgName(imgValue);
-    });
+    let imgurl = productImage?.map((i) => i);
+    let index = imgurl.length - 1;
+    setImgName(imgurl[index]?.name);
   });
-  console.log(imgName);
+  // console.log(imgName);
   return (
     <>
-      {Object.values(document).map((val, i) => {
-        return (
-          <Paper
-            key={i}
-            onClick={() => {
-              alert(val?._id);
-              router.push(`/productinfo/${val?._id}`);
-            }}
-            ml={"5%"}
-            mb={"lg "}
-            // w={"200"}
-            h={"500"}
-            style={{
-              cursor: "pointer",
-              width: "90%",
-              height: "auto",
-              // background: "red",
-              overflow: "hidden",
-            }}
-          >
-            <img
-              src={`http://localhost:5050/uploads/${imgName}`}
-              alt="productImage"
-              width={"full"}
-              height={400}
-              style={{
-                overflow: "hidden",
-                width: "100%",
-                objectFit: "cover",
-              }}
-            />
-            <Text
-              ml={8}
-              fz={"xl"}
-              fw={"bold"}
-              style={{ textTransform: "capitalize" }}
-            >
-              {val?.productName}
-            </Text>
-            <Text
-              ml={8}
-              // my={1}
-              fz={"sm"}
-              fw={"lighter"}
-              fs={"italic"}
-              style={{ textTransform: "capitalize" }}
-            >
-              {val?.productDescription.substring(0, 65) + "..."}
-            </Text>
-            <Text ml={8} fz={"md"} fw={"bold"} mb={"xl"}>
-              ${val?.price}
-            </Text>
-          </Paper>
-        );
-      })}
+      <Paper
+        // key={i}
+        onClick={() => {
+          alert(_id);
+          router.push(`/productinfo/${_id}`);
+        }}
+        ml={"5%"}
+        mb={"lg "}
+        // w={"200"}
+        h={"500"}
+        style={{
+          cursor: "pointer",
+          width: "90%",
+          height: "auto",
+          // background: "red",
+          overflow: "hidden",
+        }}
+      >
+        <img
+          src={`http://localhost:5050/uploads/${imgName}`}
+          alt="productImage"
+          width={"full"}
+          height={400}
+          style={{
+            overflow: "hidden",
+            width: "100%",
+            objectFit: "cover",
+          }}
+        />
+        <Text
+          ml={8}
+          fz={"xl"}
+          fw={"bold"}
+          style={{ textTransform: "capitalize" }}
+        >
+          {productName}
+        </Text>
+        <Text
+          ml={8}
+          // my={1}
+          fz={"sm"}
+          fw={"lighter"}
+          fs={"italic"}
+          style={{ textTransform: "capitalize" }}
+        >
+          {productDescription.substring(0, 65) + "..."}
+        </Text>
+        <Text ml={8} fz={"md"} fw={"bold"} mb={"xl"}>
+          ${price}
+        </Text>
+      </Paper>
     </>
   );
 }
