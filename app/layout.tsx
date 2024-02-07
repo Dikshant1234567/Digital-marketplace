@@ -5,7 +5,7 @@ import ".//globals.css";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-// import { Providers } from "./redux/Provider";
+import ReduxProvider from "./redux/Provider";
 
 export const metadata = {
   title: "My Mantine app",
@@ -26,13 +26,13 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body style={{ maxWidth: "1024px", margin: "auto" }}>
-        <MantineProvider>
-          <GoogleOAuthProvider clientId={clientId}>
-            {/* <Providers> */}
+        {/* <ReduxProvider> */}
+          <MantineProvider>
+            <GoogleOAuthProvider clientId={clientId}>
               {children}
-              {/* </Providers> */}
-          </GoogleOAuthProvider>
-        </MantineProvider>
+            </GoogleOAuthProvider>
+          </MantineProvider>
+        {/* </ReduxProvider> */}
       </body>
     </html>
   );
