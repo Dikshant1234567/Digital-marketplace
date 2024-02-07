@@ -4,11 +4,18 @@ import { Table, ScrollArea, Button, Flex } from '@mantine/core';
 import classes from './MyOrders.module.css';
 import axios from "axios";
 import Loader from "../common/Loader";
+import { RootState } from "../../redux/store/store";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 export function MyOrders({setActive,setProductId}:any) {
   const [scrolled, setScrolled] = useState(false);
   const [orders,setAllOrders]=useState([])
   const[isLoading,setIsLoading]=useState(true)
+
+  const todoList = useAppSelector((state: RootState) => state.todoReducer.count);
+ console.log(todoList,'todoList')
+
+  const dispatch= useAppDispatch() //Use custom hook to dispatch
 
   useEffect(()=>{
     setProductId(null)

@@ -26,13 +26,13 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body style={{ maxWidth: "1024px", margin: "auto" }}>
-        {/* <ReduxProvider> */}
+        <ReduxProvider>
           <MantineProvider>
             <GoogleOAuthProvider clientId={clientId}>
               {children}
             </GoogleOAuthProvider>
           </MantineProvider>
-        {/* </ReduxProvider> */}
+        </ReduxProvider>
       </body>
     </html>
   );

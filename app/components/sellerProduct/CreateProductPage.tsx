@@ -125,6 +125,11 @@ function CreateProductPage(props) {
 
   return (
     <Box>
+      <Flex justify="end">
+      <Button type="button" onClick={()=>handleForm(form.values)} variant="gradient">
+            {props.productId ? 'Update' : "Create"}
+          </Button>
+      </Flex>
 
       {/* Product details form */}
       <Box>
@@ -136,7 +141,7 @@ function CreateProductPage(props) {
           <TextInput
             label="Product Name"
             required
-            my={12}
+            mb={12}
             value={form.values.productName}
             {...form.getInputProps("productName")}
           />
@@ -183,8 +188,7 @@ function CreateProductPage(props) {
                           my={12}
                           clearable
                           accept="image/png,image/jpeg"
-                          // value={name}
-                          placeholder={name.name ? name.name : "Upload Image"}
+                          placeholder={"Upload Image"}
                           {...form.getInputProps(`productImage.${index}`)}
                         />
                            {/* {name.file && <img height={"100px"} width={"100px"} src={URL.createObjectURL(name.file)}/>} */}
@@ -194,7 +198,9 @@ function CreateProductPage(props) {
                             colorProfile={"red"}
                             onClick={() => {
                               form.removeListItem("productImage", index);
-                              setDeleteImage([...deleteImage, name._id]);
+                              if(props.productId){
+                                setDeleteImage([...deleteImage, name._id]);
+                              }
                             }}
                           ></IconTrashFilled>
                         </div>
@@ -203,7 +209,7 @@ function CreateProductPage(props) {
                   );
                 })}
 
-                <Flex gap={"xl"}>{form.values?.productImage?.map(e=> ((e.name || e instanceof File) && <img key={Math.random()} width={"100px"} height={"100px"} src={e.size ? URL.createObjectURL(e)  : `http://localhost:5050/uploads/${e.name}`} />) )}</Flex>
+                <Flex gap={"xl"}>{form.values?.productImage?.map(e=> ((e!==null && Object.keys(e).length > 0) && <img key={Math.random()} width={"100px"} height={"100px"} src={e.size ? URL.createObjectURL(e)  : `http://localhost:5050/uploads/${e.name}`}  />) )}</Flex>
                 <Button mt={"xl"} onClick={() =>{ form.insertListItem("productImage", {})
                             }}>
                   Add Image
@@ -211,10 +217,6 @@ function CreateProductPage(props) {
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
-
-          <Button type="submit" variant="gradient" mr={"xs"} mt={"sm"}>
-            {props.productId ? 'Update' : "Register"}
-          </Button>
         </form>
       </Box>
     </Box>

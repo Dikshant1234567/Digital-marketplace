@@ -85,10 +85,8 @@ export function NavbarMinimal() {
             </Link>
           </Title>
           <Text fz={30}>\</Text>
-          <Title fz={25} fw={"lighter"}>
-            <Link href={"/"} style={{textDecoration: "none"}}>
-              Order
-            </Link>
+            <Title fz={25} fw={"normal"} style={{cursor:'pointer'}} onClick={()=>setActive(0)}>
+                  Orders
           </Title>
           {
             active === 1 && (
