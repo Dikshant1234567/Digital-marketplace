@@ -16,7 +16,6 @@ import demoimage from "../../assets/icons/bestsellers.jpg";
 import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
 import "@mantine/carousel/styles.css";
-import classes from "./CardsCarousel.module.css";
 import RowBox from "./RowBox";
 
 // define types
