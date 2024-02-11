@@ -20,6 +20,8 @@ import { after } from "node:test";
 import Navbar from "../../components/Navbar";
 import { IconShoppingCart } from "@tabler/icons-react";
 import Link from "next/link";
+import { addCart } from "../../redux/slices/cart-slice";
+import { useAppDispatch } from "../../redux/hooks";
 
 type ProductImg = {
   contentType: String;
@@ -42,6 +44,7 @@ function page() {
   const router = useRouter();
   const [productData, setProductData] = useState<MyData>();
   const [imgUrl, setImgUrl] = useState<String>("");
+  const dispatch = useAppDispatch();
 
   //   PRODUCT FETCHING API
   useEffect(() => {
@@ -85,7 +88,9 @@ function page() {
             />
           </Box>
           <Box pt={"xl"}>
-            <Title order={1} style={{textTransform : "capitalize"}}>{productData?.productName}</Title>
+            <Title order={1} style={{ textTransform: "capitalize" }}>
+              {productData?.productName}
+            </Title>
 
             <Text fs={"italic"} fw={"lighter"}>
               ${productData?.price}
@@ -97,10 +102,17 @@ function page() {
               {productData?.productDescription}
             </Text>
             <Flex mt={"lg"} gap={"lg"}>
-              <Button bg={"orange"}>
+              <Button
+                onClick={() => dispatch(addCart(productData))}
+                variant="gradient"
+                gradient={{ from: "gray", to: "violet", deg: 202 }}
+              >
                 <IconShoppingCart height={16} /> ADD TO CART
               </Button>
-              <Button bg={"yellow"}>
+              <Button
+                variant="gradient"
+                gradient={{ from: "lime", to: "green", deg: 67 }}
+              >
                 <Link
                   href={{
                     pathname: "/payment",

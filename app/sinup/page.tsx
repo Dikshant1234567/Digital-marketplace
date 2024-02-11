@@ -65,8 +65,9 @@ export default function Sinup(props: PaperProps) {
             .then(function (myformResponse) {
               console.log(myformResponse);
               if (myformResponse?.data?.success == true) {
+                console.log(myformResponse.data?.token);
                 alert("sumbitted");
-                router.push("/");
+                router.push("/login");
               }else{
                 alert('Something went wrong try again..')
               }

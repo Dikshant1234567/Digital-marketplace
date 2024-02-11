@@ -33,6 +33,7 @@ import {
   IconFingerprint,
   IconCoin,
   IconChevronDown,
+  IconShoppingCart,
 } from "@tabler/icons-react";
 import classes from "./HeaderMegaMenu.module.css";
 import { useRouter } from "next/navigation";
@@ -45,11 +46,14 @@ import MyPicks from "../assets/icons/picks.jpg";
 import MyBlue from "../assets/ui-kits/blue.jpg";
 import MyMixed from "../assets/ui-kits/mixed.jpg";
 import MyPurple from "../assets/ui-kits/purple.jpg";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import cx from "clsx";
 // import { ActionIcon, useMantineColorScheme, useComputedColorScheme, Group } from '@mantine/core';
 import { IconSun, IconMoon } from "@tabler/icons-react";
 import classesDarkLight from "./ActionToggle.module.css";
+import Cart from "./Cart";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { getCookies, setCookie, deleteCookie, getCookie } from "cookies-next";
 
 const MyIcondata = [
   {
@@ -89,16 +93,36 @@ const MyUiKitsData = [
 export default function Navbar() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
+
+  const item = useAppSelector((state) => state.cartReducer.product);
+
+  const [opened, { open, close }] = useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
   const { setColorScheme, clearColorScheme, colorScheme } =
     useMantineColorScheme();
+  const [token, setToken] = useState<string | null>();
 
+  // light and dark mode handler useEffect
   useEffect(() => {
     setColorScheme("dark");
   }, []);
 
+  // Router
   const router = useRouter();
+
+  // Token
+  useEffect(() => {
+    let myToken = getCookie("userToken");
+    setToken(myToken);
+  }, [token]);
+
+  // DELETE TOKEN HANDLER FUNCTION
+  function handlerLogout() {
+    deleteCookie("userToken");
+    setToken("");
+  }
+
   return (
     <Box className="bg-slate-150 py-4">
       <header className={classes.header}>
@@ -200,14 +224,63 @@ export default function Navbar() {
             </HoverCard>
           </Group>
 
-          {/* login and sinup btns */}
           <Group visibleFrom="sm">
-            <Button variant="default" onClick={() => router.push("/login")}>
-              Log in
-            </Button>
-            <Button onClick={() => router.push("/sinup")}>Sign up</Button>
+            {/* login and sinup btns and logout */}
+
+            {token !== undefined ? (
+              <>
+              <Button onClick={()=>router.push('/createProduct')}>Create Product</Button>
+              <Button onClick={handlerLogout}>Logout</Button>
+              </>
+            ) : (
+              <>
+                <Button variant="default" onClick={() => router.push("/login")}>
+                  Log in
+                </Button>
+                <Button onClick={() => router.push("/sinup")}>Sign up</Button>
+              </>
+            )}
+
+            {/* CART ICON */}
+            <Drawer
+              opened={opened}
+              onClose={close}
+              title="Cart"
+              position="right"
+              style={{ overflow: "hidden" }}
+            >
+              <Cart />
+            </Drawer>
+            <Box style={{ position: "relative" }}>
+              <p
+                style={{
+                  position: "absolute",
+                  top: "-1.75rem",
+                  right: "-.25rem",
+                  fontSize: "18px",
+                  background: "purple",
+                  zIndex: "99",
+                  borderRadius: "50%",
+                  width: "25px",
+                  textAlign: "center",
+                  color: "white",
+                }}
+              >
+                {item.length !== 0 && item.length}
+              </p>
+              <Button
+                onClick={open}
+                variant="gradient"
+                gradient={{ from: "gray", to: "violet", deg: 202 }}
+              >
+                <IconShoppingCart />
+              </Button>
+            </Box>
+
+            {/* DARK AND LIGHT BTN */}
             <Group justify="center">
-              <ActionIcon radius={'xl'}
+              <ActionIcon
+                radius={"xl"}
                 onClick={() =>
                   setColorScheme(colorScheme === "light" ? "dark" : "light")
                 }

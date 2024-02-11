@@ -41,7 +41,7 @@ export default function Sinup(props: PaperProps) {
 
   const router = useRouter();
   const { email, password } = form.values;
-  console.log(email, password);
+  // console.log(email, password);
   return (
     <Paper radius="md" p="xl" withBorder {...props} className="mt-0 lg:mt-[8%]">
       <Text size="35px" fw={500} className="capitalize text-center mb-8">
@@ -65,10 +65,14 @@ export default function Sinup(props: PaperProps) {
               console.log(myformResponse);
               if (myformResponse?.data?.success == true) {
                 alert("sumbitted");
-                console.log(myformResponse?.data?.token)
-                router.push("/");
-              }else{
-                alert('Something went wrong try again..')
+                console.log(myformResponse?.data?.token);
+
+                const userAuntheticated =
+                  (document.cookie = `userToken = ${myformResponse?.data?.token}`);
+                if (userAuntheticated) router.push("/");
+                else console.log("Something went wrong");
+              } else {
+                alert("Something went wrong try again..");
               }
             })
             .catch(function (error) {
