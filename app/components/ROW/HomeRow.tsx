@@ -17,6 +17,7 @@ import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
 import "@mantine/carousel/styles.css";
 import RowBox from "./RowBox";
+import Loader from "../common/Loader";
 
 // define types
 type ProductImg = {
@@ -59,7 +60,9 @@ function HomeRow() {
 
   return (
     <>
-      {myValues &&
+      {!myValues ? (
+        <Loader />
+      ) : (
         myValues?.map((items: MyValuesProps, i) => {
           const { category, documents } = items;
           // console.log(documents, typeof documents, "documents");
@@ -108,7 +111,8 @@ function HomeRow() {
               />
             </Box>
           );
-        })}
+        })
+      )}
     </>
   );
 }
