@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { MonthPickerInput,DatesProvider } from '@mantine/dates';
+import '@mantine/dates/styles.css';
 import Navbar from "../Navbar";
 import {
   Box,
@@ -38,30 +40,17 @@ function Payment() {
     initialValues: {
       firstName: "",
       lastName: "",
-      expireDate: "",
+      expireDate: null,
       cardNo: "",
       cvv: "",
     },
 
     validate: {
-      cvv: (val) => {
-        // let cvvNumber = val.toString().split(" ").join("");
-        if (val.length != 2) {
-          return "CVV no should be of 3 digits";
-        }
-        return null;
-      },
+            //@ts-ignore
+      expireDate: (val) => new Date(val).getTime() < Date.now() ? 'Expiry Date must be future date':null,
+      cvv: (val) => val.toString().length!==3 ? 'CVV should be of 3 digits':null,
 
-      cardNo: (val) => {
-        if (val.length != 15) {
-          return "card numbe should be of 16 digits";
-        }
-        return null;
-      },
-
-      expireDate: (val) => {
-        return null;
-      },
+      cardNo: (val) =>  val.toString().length!==16?'Card number should be 16 digits' : null
     },
   });
   const params = useSearchParams();
@@ -75,9 +64,7 @@ function Payment() {
   const productDescription = params.get("productDescription");
   // console.log(id, price, imgUrl, productDescription, productName, category);
   const { firstName, lastName, expireDate, cardNo, cvv } = form.values;
-  // console.log(firstName, lastName, expireDate, typeof cardNo, cvv);
-  console.log(expireDate, typeof expireDate);
-
+  console.log(typeof expireDate);
   return (
     <>
       <Navbar />
@@ -140,7 +127,7 @@ function Payment() {
         <form
           action=""
           onSubmit={form.onSubmit((e) => {
-            alert("submit");
+            window.alert("submit");
           })}
         >
           <Title m={"auto"}>Enter the Details</Title>
@@ -167,15 +154,17 @@ function Payment() {
             />
           </Flex>
           <NumberInput
+          id="credit-card-input"
             my={"md"}
             label="Card Number"
             name="cardNo."
             placeholder="0000 0000 0000 0000"
             required
+            maxLength={16}
             value={form.values.cardNo}
             {...form.getInputProps("cardNo")}
           />
-          <TextInput
+          {/* <TextInput
             required
             label="Expire Date"
             name="expireDate"
@@ -183,7 +172,23 @@ function Payment() {
             radius={"md"}
             value={form.values.expireDate}
             {...form.getInputProps("expireDate")}
-          />
+            /> */}
+
+<DatesProvider settings={{timezone: '', }}>
+<MonthPickerInput
+           
+           required
+           label="Expire Date"
+           name="expireDate"
+           placeholder="MM/YY"
+           
+           // value={form.values.expireDate}
+           {...form.getInputProps("expireDate")}
+         />
+</DatesProvider>
+
+
+         
           <NumberInput
             required
             label="CVV"
@@ -191,6 +196,7 @@ function Payment() {
             placeholder="CVV"
             radius={"md"}
             my={"md"}
+            maxLength={3}
             value={form.values.cvv}
             {...form.getInputProps("cvv")}
           />
