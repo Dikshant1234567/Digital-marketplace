@@ -22,6 +22,7 @@ import { IconShoppingCart } from "@tabler/icons-react";
 import Link from "next/link";
 import { addCart } from "../../redux/slices/cart-slice";
 import { useAppDispatch } from "../../redux/hooks";
+import Loader from "../../components/common/Loader";
 
 type ProductImg = {
   contentType: String;
@@ -76,64 +77,70 @@ function page() {
   console.log(productData);
   return (
     <>
-      <Navbar />
-      <Container my="md" h={"80vh"}>
-        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-          <Box p={"auto"} pt={"xl"}>
-            <img
-              src={`http://localhost:5050/uploads/${imgUrl}`}
-              alt="productImage"
-              width={"100%"}
-              height={"100%"}
-            />
-          </Box>
-          <Box pt={"xl"}>
-            <Title order={1} style={{ textTransform: "capitalize" }}>
-              {productData?.productName}
-            </Title>
+      {!productData ? (
+        <Loader />
+      ) : (
+        <>
+          <Navbar />
+          <Container my="md" h={"80vh"}>
+            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+              <Box p={"auto"} pt={"xl"}>
+                <img
+                  src={`http://localhost:5050/uploads/${imgUrl}`}
+                  alt="productImage"
+                  width={"100%"}
+                  height={"100%"}
+                />
+              </Box>
+              <Box pt={"xl"}>
+                <Title order={1} style={{ textTransform: "capitalize" }}>
+                  {productData?.productName}
+                </Title>
 
-            <Text fs={"italic"} fw={"lighter"}>
-              ${productData?.price}
-            </Text>
-            <Text fw={"bold"} fz={"xl"} py={"xs"}>
-              {productData?.category}
-            </Text>
-            <Text fw={"normal"} fz={"md"}>
-              {productData?.productDescription}
-            </Text>
-            <Flex mt={"lg"} gap={"lg"}>
-              <Button
-                onClick={() => dispatch(addCart(productData))}
-                variant="gradient"
-                gradient={{ from: "gray", to: "violet", deg: 202 }}
-              >
-                <IconShoppingCart height={16} /> ADD TO CART
-              </Button>
-              <Button
-                variant="gradient"
-                gradient={{ from: "lime", to: "green", deg: 67 }}
-              >
-                <Link
-                  href={{
-                    pathname: "/payment",
-                    query: {
-                      productName: `${productData?.productName}`,
-                      price: `${productData?.price}`,
-                      productDescription: `${productData?.productDescription}`,
-                      imgurl: `${imgUrl}`,
-                      id: `${productData?.productImage.map((i) => i._id)}`,
-                      category: `${productData?.category}`,
-                    },
-                  }}
-                  style={{ textDecoration: "none", color: "white" }}
-                >
-                  BUY NOW
-                </Link>
-              </Button>
-            </Flex>
-          </Box>
-        </SimpleGrid>
-      </Container>
+                <Text fs={"italic"} fw={"lighter"}>
+                  ${productData?.price}
+                </Text>
+                <Text fw={"bold"} fz={"xl"} py={"xs"}>
+                  {productData?.category}
+                </Text>
+                <Text fw={"normal"} fz={"md"}>
+                  {productData?.productDescription}
+                </Text>
+                <Flex mt={"lg"} gap={"lg"}>
+                  <Button
+                    onClick={() => dispatch(addCart(productData))}
+                    variant="gradient"
+                    gradient={{ from: "gray", to: "violet", deg: 202 }}
+                  >
+                    <IconShoppingCart height={16} /> ADD TO CART
+                  </Button>
+                  <Button
+                    variant="gradient"
+                    gradient={{ from: "lime", to: "green", deg: 67 }}
+                  >
+                    <Link
+                      href={{
+                        pathname: "/payment",
+                        query: {
+                          productName: `${productData?.productName}`,
+                          price: `${productData?.price}`,
+                          productDescription: `${productData?.productDescription}`,
+                          imgurl: `${imgUrl}`,
+                          id: `${productData?.productImage.map((i) => i._id)}`,
+                          category: `${productData?.category}`,
+                        },
+                      }}
+                      style={{ textDecoration: "none", color: "white" }}
+                    >
+                      BUY NOW
+                    </Link>
+                  </Button>
+                </Flex>
+              </Box>
+            </SimpleGrid>
+          </Container>
+        </>
+      )}
     </>
   );
 }
