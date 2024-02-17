@@ -21,18 +21,15 @@ import {
 } from "@mantine/hooks";
 import Image from "next/image";
 import cartImage from "../assets/hippo-empty-cart.png";
+import { useRouter } from "next/navigation";
 function Cart() {
   const item = useAppSelector((state) => state.cartReducer.product);
   const dispatch = useAppDispatch();
   const [cartPrice, setCartPrice] = useState<number>();
+  const router = useRouter();
   console.log(item.map((i) => i.price));
-  // const { hovered, ref } = useHover();
-
-  // Color Scheme
-  // const { setColorScheme } = useMantineColorScheme();
-  // const computedColorScheme = useComputedColorScheme("light", {
-  //   getInitialValueInEffect: true,
-  // });
+  const { setColorScheme, clearColorScheme, colorScheme } =
+    useMantineColorScheme();
 
   useEffect(() => {
     let totalPrice: number = 0;
@@ -73,16 +70,19 @@ function Cart() {
               zIndex: "9999",
               top: "0",
               left: "0",
-              background: "black",
+              background: `${
+                colorScheme === "dark" ? "#00000014" : "#f5f5dc59"
+              }`,
               width: "100%",
-              height: "10vh",
+              // height: "10vh",
               overflow: "hidden",
               paddingLeft: ".5rem",
               paddingTop: ".5rem",
+              color: `${colorScheme === "dark" ? "white" : "black"}`,
             }}
           >
             <Title order={4}>Total Product : ({item.length}) </Title>
-            <Title order={5} fw={"400"} mt={"xs"}>
+            <Title order={5} fw={"400"} my={"xs"}>
               Price : ${cartPrice}
             </Title>
           </Box>
@@ -109,7 +109,9 @@ function Cart() {
                       overflow: "hidden",
                       width: "100%",
                       objectFit: "cover",
+                      cursor: "pointer",
                     }}
+                    onClick={() => router.push(`/productinfo/${_id}`)}
                   />
                   <Group justify="space-between">
                     <Box>

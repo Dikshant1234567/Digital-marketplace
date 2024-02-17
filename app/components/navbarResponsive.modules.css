@@ -1,0 +1,28 @@
+.cartBox{
+    display: none;
+}
+.dark_light_btn{
+   display: none;
+}
+@media (max-width :50em) {
+    .cartBox{
+        position: absolute !important;
+        display: block !important;
+        right: 4rem;
+    }
+    .nav-box{
+        text-align: center;
+    }
+    .nav-links{
+        text-decoration: none !important;
+        margin: auto;
+        margin-top: .5rem;
+        /* color: navajowhite; */
+    }
+    .dark_light_btn{
+        display: block;
+        position: absolute;
+        top: .5rem;
+        right: 8.75rem;
+    }
+}

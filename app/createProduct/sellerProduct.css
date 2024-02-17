@@ -1,0 +1,32 @@
+@media (max-width: 50em) {
+  .create_product_container {
+    width: 100% !important;
+    padding: 0 1rem;
+    /* background-color: aqua; */
+  }
+  .create_product_head {
+    /* margin-left: 1rem !important; */
+    display: none;
+  }
+  .product_details_conatiner {
+    display: block !important;
+    /* background-color: red; */
+  }
+  .product_details_conatiner nav{
+    margin-top: -10% !important;
+    width: 100%;
+    margin-bottom: 1rem !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid #80808017;
+    
+  }
+  #nav_links{
+    display: flex !important;
+    gap: 1.5rem;
+  }
+  .product-details-box{
+    width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  
+}

@@ -42,6 +42,21 @@ function Payment() {
       cardNo: "",
       cvv: "",
     },
+
+    validate: {
+      // expireDate: (val) => val.toString().split("-").length,
+      cvv: (val) => {
+        // val = val.replace(/\s/g, "").replace(/-/g, "");
+        // return /^\d{3,4}$/.test(val);
+        return null
+      },
+
+      cardNo: (val) => {
+        val.toString().split("")
+
+       return ""
+      },
+    },
   });
   const params = useSearchParams();
   const router = useRouter();
@@ -54,7 +69,7 @@ function Payment() {
   const productDescription = params.get("productDescription");
   // console.log(id, price, imgUrl, productDescription, productName, category);
   const { firstName, lastName, expireDate, cardNo, cvv } = form.values;
-  console.log(firstName, lastName, expireDate, cardNo, cvv);
+  console.log(firstName, lastName, expireDate, typeof cardNo, cvv);
 
   return (
     <>
@@ -95,7 +110,7 @@ function Payment() {
           />
           <Box pr={"md"}>
             <Text fw={"bold"} fz={"md"}>
-              {productName?.substring(0 , 13) + "..."}
+              {productName?.substring(0, 13) + "..."}
             </Text>
             <Text fs={"italic"} fw={"lighter"}>
               ${price}
@@ -109,13 +124,18 @@ function Payment() {
           margin: "0px",
           width: "372px",
           backgroundColor: "#f8f9fa",
-          opacity :".2"
+          opacity: ".2",
         }}
       />
 
       {/* PAYMENT FORM */}
       <Box mt={"xl"}>
-        <form action="">
+        <form
+          action=""
+          onSubmit={form.onSubmit((e) => {
+            alert("submit");
+          })}
+        >
           <Title m={"auto"}>Enter the Details</Title>
           <Flex gap={"md"} mt={"md"} style={{ width: "100%" }}>
             <TextInput
@@ -143,7 +163,7 @@ function Payment() {
             my={"md"}
             label="Card Number"
             name="cardNo."
-            placeholder="Enter the card no"
+            placeholder="0000 0000 0000 0000"
             required
             value={form.values.cardNo}
             {...form.getInputProps("cardNo")}
@@ -177,7 +197,6 @@ function Payment() {
           </Button>
         </form>
       </Box>
-
     </>
   );
 }
