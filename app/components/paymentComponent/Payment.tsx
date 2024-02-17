@@ -44,17 +44,23 @@ function Payment() {
     },
 
     validate: {
-      // expireDate: (val) => val.toString().split("-").length,
       cvv: (val) => {
-        // val = val.replace(/\s/g, "").replace(/-/g, "");
-        // return /^\d{3,4}$/.test(val);
-        return null
+        // let cvvNumber = val.toString().split(" ").join("");
+        if (val.length != 2) {
+          return "CVV no should be of 3 digits";
+        }
+        return null;
       },
 
       cardNo: (val) => {
-        val.toString().split("")
+        if (val.length != 15) {
+          return "card numbe should be of 16 digits";
+        }
+        return null;
+      },
 
-       return ""
+      expireDate: (val) => {
+        return null;
       },
     },
   });
@@ -69,7 +75,8 @@ function Payment() {
   const productDescription = params.get("productDescription");
   // console.log(id, price, imgUrl, productDescription, productName, category);
   const { firstName, lastName, expireDate, cardNo, cvv } = form.values;
-  console.log(firstName, lastName, expireDate, typeof cardNo, cvv);
+  // console.log(firstName, lastName, expireDate, typeof cardNo, cvv);
+  console.log(expireDate, typeof expireDate);
 
   return (
     <>
