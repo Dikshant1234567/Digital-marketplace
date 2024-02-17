@@ -5,6 +5,7 @@ import HomeHero from "./components/HomeHero";
 import HomeRow from "./components/ROW/HomeRow";
 import "@mantine/carousel/styles.css";
 import Footer from "./components/footer/Footer";
+import '@mantine/dates/styles.css';
 
 export default function Home() {
   return (
