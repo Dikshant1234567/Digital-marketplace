@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import {
   Center,
   Tooltip,
@@ -22,10 +22,10 @@ import {
   IconLogout,
   IconSwitchHorizontal,
 } from "@tabler/icons-react";
-import {MantineLogo} from "@mantinex/mantine-logo";
+import { MantineLogo } from "@mantinex/mantine-logo";
 import classes from "./NavbarMinimal.module.css";
 import CreateProductPage from "./CreateProductPage";
-import {MyOrders} from "./MyOrders";
+import { MyOrders } from "./MyOrders";
 import Link from "next/link";
 
 interface NavbarLinkProps {
@@ -35,14 +35,15 @@ interface NavbarLinkProps {
   onClick?(): void;
 }
 
-function NavbarLink({icon: Icon, label, active, onClick}: NavbarLinkProps) {
+function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
   return (
-    <Tooltip label={label} position="right" transitionProps={{duration: 0}}>
+    <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
       <UnstyledButton
         onClick={onClick}
         className={classes.link}
-        data-active={active || undefined}>
-        <Icon style={{width: rem(20), height: rem(20)}} stroke={1.5} />
+        data-active={active || undefined}
+      >
+        <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
       </UnstyledButton>
     </Tooltip>
   );
@@ -61,7 +62,9 @@ export function NavbarMinimal() {
     {
       icon: IconGauge,
       label: "Create Product",
-      component: <CreateProductPage productId={productId} setProductId={setProductId} />,
+      component: (
+        <CreateProductPage productId={productId} setProductId={setProductId} />
+      ),
     },
   ];
 
@@ -76,20 +79,29 @@ export function NavbarMinimal() {
 
   return (
     <>
-    <div>
-      <div style={{marginLeft: "10rem"}}>
-        <Group pt="sm" h={"10vh"} align="baseline">
-          <Title fz={35} fw={"600"}>
-            <Link href={"/createProduct"} style={{textDecoration: "none"}}>
-              Myproduct
-            </Link>
-          </Title>
-          <Text fz={30}>\</Text>
-            <Title fz={25} fw={"normal"} style={{cursor:'pointer'}} onClick={()=>setActive(0)}>
-                  Orders
-          </Title>
-          {
-            active === 1 && (
+      <div className="create_product_container">
+        <div style={{ marginLeft: "10rem" }} className="create_product_head">
+          <Group
+            pt="sm"
+            h={"10vh"}
+            align="baseline"
+            className="create_product_nav"
+          >
+            <Title fz={35} fw={"600"}>
+              <Link href={"/createProduct"} style={{ textDecoration: "none" }}>
+                Myproduct
+              </Link>
+            </Title>
+            <Text fz={30}>\</Text>
+            <Title
+              fz={25}
+              fw={"normal"}
+              style={{ cursor: "pointer" }}
+              onClick={() => setActive(0)}
+            >
+              Orders
+            </Title>
+            {active === 1 && (
               <>
                 <Text fz={30}>\</Text>
                 <Title fz={25} fw={"lighter"}>
@@ -97,18 +109,21 @@ export function NavbarMinimal() {
                 </Title>
               </>
             )}
-        </Group>
-      </div>
-      <div style={{display: "flex", gap: "80px",height:'90vh'}}>
-        <nav className={classes.navbar}>
-          <div className={classes.navbarMain}>
-            <Stack justify="center" gap={20}>
-              {links}
-            </Stack>
-          </div>
-        </nav>
-        <div style={{flexGrow: "1"}}>{mockdata[active]["component"]}</div>
-      </div>
+          </Group>
+        </div>
+        <div
+          style={{ display: "flex", gap: "80px", height: "90vh" }}
+          className="product_details_conatiner"
+        >
+          <nav className={classes.navbar}>
+            <div className={classes.navbarMain } id="nav_links">
+              {/* <Stack justify="center" gap={20}> */}
+                {links}
+              {/* </Stack> */}
+            </div>
+          </nav>
+          <div style={{ flexGrow: "1" }}>{mockdata[active]["component"]}</div>
+        </div>
       </div>
     </>
   );

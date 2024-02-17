@@ -124,7 +124,7 @@ function CreateProductPage(props) {
   }
 
   return (
-    <Box>
+    <Box className="product-details-box">
       <Flex justify="end">
       <Button type="button" onClick={()=>handleForm(form.values)} variant="gradient">
             {props.productId ? 'Update' : "Create"}
@@ -132,7 +132,7 @@ function CreateProductPage(props) {
       </Flex>
 
       {/* Product details form */}
-      <Box>
+      <Box className="product-input-box"  >
         <form
           onSubmit={form.onSubmit((values) => {
             handleForm(values);

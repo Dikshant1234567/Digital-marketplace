@@ -54,6 +54,7 @@ import classesDarkLight from "./ActionToggle.module.css";
 import Cart from "./Cart";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getCookies, setCookie, deleteCookie, getCookie } from "cookies-next";
+import "./navbarResponsive.modules.css";
 
 const MyIcondata = [
   {
@@ -125,7 +126,7 @@ export default function Navbar() {
 
   return (
     <Box className="bg-slate-150 py-4">
-      <header className={classes.header}>
+      <header className={classes.header} id="navHeader">
         <Group justify="space-between" h="100%">
           <Link href={"/"}>
             <Image src={myLogo} alt="logo" width={40} height={40} />
@@ -229,8 +230,10 @@ export default function Navbar() {
 
             {token !== undefined ? (
               <>
-              <Button onClick={()=>router.push('/createProduct')}>Create Product</Button>
-              <Button onClick={handlerLogout}>Logout</Button>
+                <Button onClick={() => router.push("/createProduct")}>
+                  Create Product
+                </Button>
+                <Button onClick={handlerLogout}>Logout</Button>
               </>
             ) : (
               <>
@@ -242,15 +245,16 @@ export default function Navbar() {
             )}
 
             {/* CART ICON */}
-            <Drawer
-              opened={opened}
-              onClose={close}
-              title="Cart"
-              position="right"
-              style={{ overflow: "hidden" }}
-            >
-              <Cart />
-            </Drawer>
+              <Drawer
+                opened={opened}
+                onClose={close}
+                title="Cart"
+                position="right"
+                style={{ overflow: "hidden" , maxWidth :"1024px" }}
+                
+              >
+                <Cart />
+              </Drawer>
             <Box style={{ position: "relative" }}>
               <p
                 style={{
@@ -305,6 +309,53 @@ export default function Navbar() {
             onClick={toggleDrawer}
             hiddenFrom="sm"
           />
+          {/* cartBtn small screen */}
+          <Box style={{ position: "relative" }} className="cartBox">
+            <p
+              style={{
+                position: "absolute",
+                top: "-1.75rem",
+                right: "-.25rem",
+                fontSize: "18px",
+                background: "purple",
+                zIndex: "99",
+                borderRadius: "50%",
+                width: "25px",
+                textAlign: "center",
+                color: "white",
+              }}
+            >
+              {item.length !== 0 && item.length}
+            </p>
+            <Button
+              onClick={open}
+              variant="gradient"
+              gradient={{ from: "gray", to: "violet", deg: 202 }}
+            >
+              <IconShoppingCart />
+            </Button>
+          </Box>
+
+          <Group justify="center" className="dark_light_btn">
+            <ActionIcon
+              radius={"xl"}
+              onClick={() =>
+                setColorScheme(colorScheme === "light" ? "dark" : "light")
+              }
+              variant="default"
+              size="xl"
+              aria-label="Toggle color scheme"
+            >
+              <IconSun
+                className={cx(classesDarkLight.icon, classesDarkLight.light)}
+                stroke={1.5}
+              />
+              <IconMoon
+                className={cx(classesDarkLight.icon, classesDarkLight.dark)}
+                stroke={1.5}
+              />
+            </ActionIcon>
+          </Group>
         </Group>
       </header>
       {/* mobile screen */}
@@ -319,26 +370,53 @@ export default function Navbar() {
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
-          <Box className="block text-center text-lg font-medium">
-            <Link href={"/"} onClick={() => closeDrawer()}>
+
+          <Box className="nav-box">
+            <Link
+              href={"/"}
+              onClick={() => closeDrawer()}
+              className="nav-links"
+              style={{
+                color: `${
+                  colorScheme == "dark" ? "navajowhite" : "black"
+                } !important`,
+              }}
+            >
               Icons
             </Link>
             <br />
-            <hr className="w-24 m-auto h-2" />
-            <Link href={"/"}>Ui-Kits</Link>
+            <hr />
+            <Link
+              href={"/"}
+              className="nav-links"
+              style={{
+                color: `${
+                  colorScheme == "dark" ? "navajowhite" : "black"
+                } !important`,
+              }}
+            >
+              Ui-Kits
+            </Link>
           </Box>
 
           <Divider my="sm" />
 
           <Group justify="center" grow pb="xl" px="md">
-            <Button
-              variant="default"
-              onClick={() => router.push("/login")}
-              className="py-24"
-            >
-              Log in
-            </Button>
-            <Button onClick={() => router.push("/sinup")}>Sign up</Button>
+            {token !== undefined ? (
+              <>
+                <Button onClick={() => router.push("/createProduct")}>
+                  Create Product
+                </Button>
+                <Button onClick={handlerLogout}>Logout</Button>
+              </>
+            ) : (
+              <>
+                <Button variant="default" onClick={() => router.push("/login")}>
+                  Log in
+                </Button>
+                <Button onClick={() => router.push("/sinup")}>Sign up</Button>
+              </>
+            )}
           </Group>
         </ScrollArea>
       </Drawer>
