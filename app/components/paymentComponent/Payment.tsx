@@ -18,6 +18,7 @@ import {
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { Container } from "postcss";
 import { useForm } from "@mantine/form";
+import Image from "next/image";
 
 type ProductImg = {
   contentType: String;
@@ -93,9 +94,11 @@ function Payment() {
           gap={"md"}
           onClick={() => router.back()}
         >
-          <img
+          <Image
             src={`http://localhost:5050/uploads/${imgUrl}`}
             alt="productImage"
+            width={100}
+            height={100}
             style={{
               width: "5rem",
               height: "5rem",
@@ -127,7 +130,7 @@ function Payment() {
         <form
           action=""
           onSubmit={form.onSubmit((e) => {
-            window.alert("submit");
+            window.alert("Product Bought");
           })}
         >
           <Title m={"auto"}>Enter the Details</Title>

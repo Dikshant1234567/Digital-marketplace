@@ -30,9 +30,9 @@ export interface productType {
 }
 
 function CreateProductPage(props) {
-  const[deleteImage,setDeleteImage]=useState([])
+  const [deleteImage, setDeleteImage] = useState([]);
 
-  const router = useRouter()
+  const router = useRouter();
   const form = useForm({
     initialValues: {
       productName: "",
@@ -43,7 +43,7 @@ function CreateProductPage(props) {
     },
   });
 
-  console.log(form.values,'forrrrrrrr')
+  console.log(form.values, "forrrrrrrr");
 
   // async function fetchSingleProduct() {
 
@@ -51,38 +51,35 @@ function CreateProductPage(props) {
 
   //OPEN THIS USEEFFECT AND REPLACE ID IN API TO SEE AN EXISTING PRODUCT
   useEffect(() => {
-    if(props.productId){
+    if (props.productId) {
       let data = null;
       axios
-       .get(`http://localhost:5050/product/${props.productId}`)
-       .then((e) => {
-         data = e.data.data;
- 
-         let productImageData = data?.productImage?.map((e: any) => {
-           return {...e};
-         });
- 
-         let updateData = {
-           productName: data.productName,
-           productDescription: data.productDescription,
-           price: data.price,
-           category: data.category,
-           productImage: productImageData,
-         };
- 
-         form.setInitialValues(updateData);
-         form.setValues(updateData);
- 
-       })}
-      
-      
-      return (()=>{
-        // props.setProductId(null)
-        console.log('called')
-      })
-      },
-    
-      []);
+        .get(`http://localhost:5050/product/${props.productId}`)
+        .then((e) => {
+          data = e.data.data;
+
+          let productImageData = data?.productImage?.map((e: any) => {
+            return { ...e };
+          });
+
+          let updateData = {
+            productName: data.productName,
+            productDescription: data.productDescription,
+            price: data.price,
+            category: data.category,
+            productImage: productImageData,
+          };
+
+          form.setInitialValues(updateData);
+          form.setValues(updateData);
+        });
+    }
+
+    return () => {
+      // props.setProductId(null)
+      console.log("called");
+    };
+  }, []);
 
   function handleForm(values: productType) {
     const form_Data = new FormData();
@@ -96,8 +93,7 @@ function CreateProductPage(props) {
 
     // Check if productImage exists and is an array
     if (values.productImage && Array.isArray(values.productImage)) {
-      values.productImage.forEach((imageObj,index) => {
-        
+      values.productImage.forEach((imageObj, index) => {
         // const file = imageObj.file;
         if (imageObj) {
           form_Data.append(`productImage[${index}]`, imageObj);
@@ -109,30 +105,40 @@ function CreateProductPage(props) {
       form_Data.append("deletedImageIds", JSON.stringify(deleteImage));
     }
 
-    if(!props.productId){
-      axios.post("http://localhost:5050/product/create", form_Data).then((response) => {
-        alert("Created successfully");
-        // form.reset() To reset the form after submitting
-      });
-    }else{
-      axios.post(`http://localhost:5050/product/update/${props.productId}`, form_Data).then((response) => {
-        alert("Product updated successfully");
-        // form.reset() To reset the form after submitting
-      });
+    if (!props.productId) {
+      axios
+        .post("http://localhost:5050/product/create", form_Data)
+        .then((response) => {
+          alert("Created successfully");
+          // form.reset() To reset the form after submitting
+        });
+    } else {
+      axios
+        .post(
+          `http://localhost:5050/product/update/${props.productId}`,
+          form_Data
+        )
+        .then((response) => {
+          alert("Product updated successfully");
+          // form.reset() To reset the form after submitting
+        });
     }
-
   }
 
   return (
     <Box className="product-details-box">
       <Flex justify="end">
-      <Button type="button" onClick={()=>handleForm(form.values)} variant="gradient">
-            {props.productId ? 'Update' : "Create"}
-          </Button>
+        <Button
+          type="button"
+          onClick={() => handleForm(form.values)}
+          variant="gradient"
+        >
+          {props.productId ? "Update" : "Create"}
+        </Button>
       </Flex>
 
       {/* Product details form */}
-      <Box className="product-input-box"  >
+      <Box className="product-input-box">
         <form
           onSubmit={form.onSubmit((values) => {
             handleForm(values);
@@ -164,7 +170,12 @@ function CreateProductPage(props) {
             my={12}
             label="Catogry"
             placeholder="Pick value"
-            data={["React", "Angular", "Vue", "Svelte"]}
+            data={[
+              "Ui Kits",
+              "Web Pages",
+              "Invoice Template",
+              "Music Templates",
+            ]}
             value={form.values.category}
             required
             {...form.getInputProps("category")}
@@ -180,8 +191,8 @@ function CreateProductPage(props) {
                         justify="space-between"
                         gap={"lg"}
                         align="center"
-                        style={{height: "90px"}}>
-                       
+                        style={{ height: "90px" }}
+                      >
                         <FileInput
                           capture
                           style={{ flexGrow: "1" }}
@@ -191,14 +202,14 @@ function CreateProductPage(props) {
                           placeholder={"Upload Image"}
                           {...form.getInputProps(`productImage.${index}`)}
                         />
-                           {/* {name.file && <img height={"100px"} width={"100px"} src={URL.createObjectURL(name.file)}/>} */}
-                        <div style={{cursor: "pointer"}}>
+                        {/* {name.file && <img height={"100px"} width={"100px"} src={URL.createObjectURL(name.file)}/>} */}
+                        <div style={{ cursor: "pointer" }}>
                           <IconTrashFilled
                             color={"red"}
                             colorProfile={"red"}
                             onClick={() => {
                               form.removeListItem("productImage", index);
-                              if(props.productId){
+                              if (props.productId) {
                                 setDeleteImage([...deleteImage, name._id]);
                               }
                             }}
@@ -209,9 +220,30 @@ function CreateProductPage(props) {
                   );
                 })}
 
-                <Flex gap={"xl"}>{form.values?.productImage?.map(e=> ((e!==null && Object.keys(e).length > 0) && <img key={Math.random()} width={"100px"} height={"100px"} src={e.size ? URL.createObjectURL(e)  : `http://localhost:5050/uploads/${e.name}`}  />) )}</Flex>
-                <Button mt={"xl"} onClick={() =>{ form.insertListItem("productImage", {})
-                            }}>
+                <Flex gap={"xl"}>
+                  {form.values?.productImage?.map(
+                    (e) =>
+                      e !== null &&
+                      Object.keys(e).length > 0 && (
+                        <img
+                          key={Math.random()}
+                          width={"100px"}
+                          height={"100px"}
+                          src={
+                            e.size
+                              ? URL.createObjectURL(e)
+                              : `http://localhost:5050/uploads/${e.name}`
+                          }
+                        />
+                      )
+                  )}
+                </Flex>
+                <Button
+                  mt={"xl"}
+                  onClick={() => {
+                    form.insertListItem("productImage", {});
+                  }}
+                >
                   Add Image
                 </Button>
               </Accordion.Panel>

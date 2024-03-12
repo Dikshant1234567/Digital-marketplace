@@ -2,4 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-
+* {
+  scroll-behavior: smooth;
+}
+a {
+  text-decoration: none;
+  color: white;
+}
+.productInfo-img {
+  height: 70vh;
+}
+@media (min-width: 786px) {
+  .productInfo-img {
+    height: 70vh;
+  }
+}

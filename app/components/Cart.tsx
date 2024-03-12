@@ -74,7 +74,7 @@ function Cart() {
                 colorScheme === "dark" ? "#00000014" : "#f5f5dc59"
               }`,
               width: "100%",
-              // height: "10vh",
+              height: "5rem",
               overflow: "hidden",
               paddingLeft: ".5rem",
               paddingTop: ".5rem",

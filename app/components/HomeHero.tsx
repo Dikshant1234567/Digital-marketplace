@@ -1,9 +1,10 @@
+"use client";
 import { Box, Button, Text, Title } from "@mantine/core";
 import React from "react";
 
 function HomeHero() {
   return (
-    <Box  px={"md"}  style={{textAlign :"center"}}>
+    <Box px={"md"} style={{ textAlign: "center" }}>
       <Title order={1} fz={40} mt={25}>
         Your Digital marketplace for high-quality
         <span className="text-blue-600"> digital assets</span>
@@ -14,9 +15,10 @@ function HomeHero() {
       </Text>
       <Box className="lg:flex items-center justify-center flex" mt={"lg"}>
         <Button className="my-4 lg:mx-10" fz={"md"} mr={"md"}>
-          Browse Trending
+          <a href="#products">Browse Trending</a>
         </Button>
-        <Button variant="transparent" my={4} >
+
+        <Button variant="transparent" my={4}>
           Our quality promise &#8594;
         </Button>
       </Box>
