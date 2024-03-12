@@ -46,11 +46,13 @@ function page() {
   const [productData, setProductData] = useState<MyData>();
   const [imgUrl, setImgUrl] = useState<String>("");
   const dispatch = useAppDispatch();
+  const backendUrl = 'https://digital-marketplace-backend.onrender.com'
+
 
   //   PRODUCT FETCHING API
   useEffect(() => {
     axios
-      .get(`http://localhost:5050/product/${_id}`)
+      .get(`${backendUrl}/product/${_id}`)
       .then((res) => {
         setProductData(res?.data?.data);
       })
@@ -86,7 +88,7 @@ function page() {
             <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
               <Box p={"auto"} pt={"xl"}>
                 <Image
-                  src={`http://localhost:5050/uploads/${imgUrl}`}
+                  src={`${backendUrl}/uploads/${imgUrl}`}
                   alt="productImage"
                   width={200}
                   height={200}

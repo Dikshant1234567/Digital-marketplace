@@ -25,7 +25,9 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body style={{ margin: "auto" , maxWidth :"1024px" }}>
+      <body style={{ margin: "auto",
+      //  maxWidth: "1024px" 
+       }}>
         <ReduxProvider>
           <MantineProvider>
             <GoogleOAuthProvider clientId={clientId}>

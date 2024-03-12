@@ -1,8 +1,0 @@
-node_modules
-build
-public
-package-lock.json
-package.json
-helm
-README.md
-dist
