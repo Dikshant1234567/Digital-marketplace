@@ -17,6 +17,7 @@ import {
   Anchor,
   Stack,
   Box,
+  useMantineColorScheme,
 } from "@mantine/core";
 import { GoogleButton } from "../components/GoogleButton";
 import { TwitterButton } from "../components/TwitterButton";
@@ -24,6 +25,8 @@ import Link from "next/link";
 import axios from "axios";
 
 function Login() {
+  const { setColorScheme, clearColorScheme, colorScheme } =
+    useMantineColorScheme();
   const form = useForm({
     initialValues: {
       email: "",
@@ -113,7 +116,15 @@ function Login() {
 
         <Group justify="space-between" mt="xl">
           <Anchor component="button" type="button" c="dimmed" size="xs">
-            <Link href="/sinup">Do not have an account? Register</Link>
+            <Link
+              href="/sinup"
+              style={{
+                color: `${colorScheme === "dark" ? "white" : "blue"}`,
+                textDecoration: "underline",
+              }}
+            >
+              Do not have an account? Register
+            </Link>
           </Anchor>
           <Button type="submit" radius="xl">
             Login

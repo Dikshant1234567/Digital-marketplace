@@ -17,6 +17,7 @@ import {
   Anchor,
   Stack,
   Box,
+  useMantineColorScheme,
 } from "@mantine/core";
 import { GoogleButton } from "../components/GoogleButton";
 import { TwitterButton } from "../components/TwitterButton";
@@ -24,6 +25,8 @@ import Link from "next/link";
 import Navbar from "../components/Navbar";
 
 function Sinup() {
+  const { setColorScheme, clearColorScheme, colorScheme } =
+    useMantineColorScheme();
   const form = useForm({
     initialValues: {
       email: "",
@@ -122,7 +125,15 @@ function Sinup() {
 
         <Group justify="space-between" mt="xl">
           <Anchor component="button" type="button" c="dimmed" size="xs">
-            <Link href={"/login"}>Already, have an account? Login</Link>
+            <Link
+              href={"/login"}
+              style={{
+                color: `${colorScheme === "dark" ? "white" : "blue"}`,
+                textDecoration :"underline"
+              }}
+            >
+              Already, have an account? Login
+            </Link>
           </Anchor>
           <Button type="submit" radius="xl">
             Sinup
