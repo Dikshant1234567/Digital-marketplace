@@ -37,7 +37,7 @@ export function MyOrders({ setActive, setProductId }: any) {
       <Table.Td>{row.category}</Table.Td>
       <Table.Td pr={20}>
         <Flex align={"center"} justify={"space-between"}>
-          {row.price}{" "}
+          {row.price}
           <Button
             onClick={() => {
               setActive(1);

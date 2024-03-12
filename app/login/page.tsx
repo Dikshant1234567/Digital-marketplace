@@ -117,7 +117,7 @@ export default function Sinup(props: PaperProps) {
             <Link href="/sinup">Don't have an account? Register</Link>
           </Anchor>
           <Button type="submit" radius="xl">
-            Register
+            Login
           </Button>
         </Group>
       </form>
