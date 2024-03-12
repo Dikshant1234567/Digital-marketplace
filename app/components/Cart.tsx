@@ -105,10 +105,10 @@ function Cart() {
               const imgurl = productImage.map((i) => i.name);
               return (
                 <Box key={i} mb={"xl"} style={{ overflowY: "hidden" }}>
-                  <img
+                  <Image
                     src={`${backendUrl}/uploads/${imgurl}`}
                     alt="productImage"
-                    width={"full"}
+                    width={200}
                     height={200}
                     style={{
                       overflow: "hidden",
