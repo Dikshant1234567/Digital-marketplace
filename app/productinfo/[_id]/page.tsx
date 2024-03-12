@@ -46,8 +46,7 @@ function page() {
   const [productData, setProductData] = useState<MyData>();
   const [imgUrl, setImgUrl] = useState<String>("");
   const dispatch = useAppDispatch();
-  const backendUrl = 'https://digital-marketplace-backend.onrender.com'
-
+  const backendUrl = "https://digital-marketplace-backend.onrender.com";
 
   //   PRODUCT FETCHING API
   useEffect(() => {
@@ -99,7 +98,7 @@ function page() {
                 />
               </Box>
 
-              <Box pt={"xl"} mb={'3rem'}>
+              <Box pt={"xl"} mb={"3rem"}>
                 <Title order={1} style={{ textTransform: "capitalize" }}>
                   {productData?.productName}
                 </Title>

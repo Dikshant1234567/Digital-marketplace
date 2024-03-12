@@ -11,6 +11,7 @@ export function MyOrders({ setActive, setProductId }: any) {
   const [scrolled, setScrolled] = useState(false);
   const [orders, setAllOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const backendUrl = 'https://digital-marketplace-backend.onrender.com'
 
   const todoList = useAppSelector(
     (state: RootState) => state.todoReducer.count
@@ -22,7 +23,7 @@ export function MyOrders({ setActive, setProductId }: any) {
   useEffect(() => {
     setProductId(null);
     axios
-      .get("http://localhost:5050/product/seller/65b0f79a8b658b50673a6b20")
+      .get(`${backendUrl}/product/seller/65b0f79a8b658b50673a6b20`)
       .then((e) => {
         setAllOrders(e.data.data);
         setIsLoading(false);

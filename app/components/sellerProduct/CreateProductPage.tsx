@@ -17,6 +17,7 @@ import {
 import { useForm } from "@mantine/form";
 import { IconAt, IconTrashFilled } from "@tabler/icons-react";
 import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -31,6 +32,7 @@ export interface productType {
 
 function CreateProductPage(props) {
   const [deleteImage, setDeleteImage] = useState([]);
+  const backendUrl = 'https://digital-marketplace-backend.onrender.com'
 
   const router = useRouter();
   const form = useForm({
@@ -51,10 +53,10 @@ function CreateProductPage(props) {
 
   //OPEN THIS USEEFFECT AND REPLACE ID IN API TO SEE AN EXISTING PRODUCT
   useEffect(() => {
-    if (props.productId) {
+    if (props?.productId) {
       let data = null;
       axios
-        .get(`http://localhost:5050/product/${props.productId}`)
+        .get(`${backendUrl}/product/${props.productId}`)
         .then((e) => {
           data = e.data.data;
 
@@ -107,7 +109,7 @@ function CreateProductPage(props) {
 
     if (!props.productId) {
       axios
-        .post("http://localhost:5050/product/create", form_Data)
+        .post(`${backendUrl}/product/create`, form_Data)
         .then((response) => {
           alert("Created successfully");
           // form.reset() To reset the form after submitting
@@ -115,7 +117,7 @@ function CreateProductPage(props) {
     } else {
       axios
         .post(
-          `http://localhost:5050/product/update/${props.productId}`,
+          `${backendUrl}/product/update/${props.productId}`,
           form_Data
         )
         .then((response) => {
@@ -225,14 +227,14 @@ function CreateProductPage(props) {
                     (e) =>
                       e !== null &&
                       Object.keys(e).length > 0 && (
-                        <img
+                        <Image
                           key={Math.random()}
                           width={"100px"}
                           height={"100px"}
                           src={
                             e.size
                               ? URL.createObjectURL(e)
-                              : `http://localhost:5050/uploads/${e.name}`
+                              : `${backendUrl}/uploads/${e.name}`
                           }
                         />
                       )

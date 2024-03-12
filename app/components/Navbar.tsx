@@ -107,7 +107,7 @@ export default function Navbar() {
   // light and dark mode handler useEffect
   useEffect(() => {
     setColorScheme("dark");
-  }, []);
+  }, [colorScheme]);
 
   // Router
   const router = useRouter();

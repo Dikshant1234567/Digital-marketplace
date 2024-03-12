@@ -55,7 +55,7 @@ function RowBox({ ...data }: DataPropType) {
     let imgurl = productImage?.map((i) => i);
     let index = imgurl.length - 1;
     setImgName(imgurl[index]?.name);
-  });
+  }, [productImage]);
 
 
   return (
