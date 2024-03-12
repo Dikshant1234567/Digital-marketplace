@@ -40,7 +40,7 @@ type MyData = {
   _id: String;
 };
 
-function page() {
+function ProductInfoComponent() {
   const { _id } = useParams();
   const router = useRouter();
   const [productData, setProductData] = useState<MyData>();
@@ -151,4 +151,4 @@ function page() {
   );
 }
 
-export default page;
+export default ProductInfoComponent;
