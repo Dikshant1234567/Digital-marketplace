@@ -8,7 +8,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import ReduxProvider from "./redux/Provider";
 
 export const metadata = {
-  title: "My Mantine app",
+  title: "Digital MarketPlace",
   description: "I have followed setup instructions carefully",
 };
 
@@ -25,7 +25,7 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body style={{ maxWidth: "1024px", margin: "auto" }}>
+      <body style={{ margin: "auto" , maxWidth :"1024px" }}>
         <ReduxProvider>
           <MantineProvider>
             <GoogleOAuthProvider clientId={clientId}>

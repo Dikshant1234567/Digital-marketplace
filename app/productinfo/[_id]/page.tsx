@@ -85,14 +85,19 @@ function page() {
           <Container my="md" h={"80vh"}>
             <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
               <Box p={"auto"} pt={"xl"}>
-                <img
+                <Image
                   src={`http://localhost:5050/uploads/${imgUrl}`}
                   alt="productImage"
-                  width={"100%"}
-                  height={"100%"}
+                  width={200}
+                  height={200}
+                  className="productInfo-img"
+                  style={{
+                    width: "100%",
+                  }}
                 />
               </Box>
-              <Box pt={"xl"}>
+
+              <Box pt={"xl"} mb={'3rem'}>
                 <Title order={1} style={{ textTransform: "capitalize" }}>
                   {productData?.productName}
                 </Title>

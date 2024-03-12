@@ -68,7 +68,7 @@ function HomeRow() {
           // console.log(documents, typeof documents, "documents");
 
           return (
-            <Box key={i}>
+            <Box key={i} id="products">
               <Box mt={"2.5rem"} pb={20}>
                 <Flex
                   justify="space-between"
@@ -78,9 +78,9 @@ function HomeRow() {
                 >
                   <Box>
                     <Title order={1}>{category}</Title>
-                    <Text fz={"sm"} fw={"lighter"} c={"gray"}>
+                    {/* <Text fz={"sm"} fw={"lighter"} c={"gray"}>
                       This is the head_down text
-                    </Text>
+                    </Text> */}
                   </Box>
                 </Flex>
 
@@ -89,14 +89,14 @@ function HomeRow() {
                     draggable
                     withKeyboardEvents
                     controlsOffset="xs"
-                    height={500}
+                    height={680}
                     slideSize={{ base: "100%", sm: "50%", md: "50%" }}
                     slideGap={{ base: rem(2), sm: "xl" }}
                     align={"end"}
                     slidesToScroll={tablet ? 2 : mobile ? 1 : 2}
                   >
                     {Object.values(documents).map((values, i) => {
-                      // console.log(values, i, `${category} +${i}`);
+                      console.log(values, i, `${category} +${i}`);
                       return (
                         <Carousel.Slide key={i}>
                           <RowBox {...values} />

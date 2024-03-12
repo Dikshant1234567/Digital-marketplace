@@ -38,6 +38,7 @@ export const cartSlice = createSlice({
         return;
       } else {
         state.product.push(action.payload);
+        alert("Product added to cart")
       }
     },
     removeCart: (state, action) => {

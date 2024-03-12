@@ -52,7 +52,8 @@ function RowBox({ ...data }: DataPropType) {
     let index = imgurl.length - 1;
     setImgName(imgurl[index]?.name);
   });
-  // console.log(imgName);
+
+
   return (
     <Paper
       ml={"5%"}
@@ -60,26 +61,23 @@ function RowBox({ ...data }: DataPropType) {
       style={{
         width: "90%",
         height: "auto",
-        // background: "red",
         overflow: "hidden",
-        // padding: ".5rem",
-        // border: "1px solid gray",
       }}
     >
-      <img
+      <Image
         src={`http://localhost:5050/uploads/${imgName}`}
         alt="productImage"
-        width={"full"}
-        height={400}
+        width="400"
+        height={500}
         style={{
           // border :"1px solid gray",
           cursor: "pointer",
           overflow: "hidden",
           width: "100%",
-          objectFit: "cover",
+          // objectFit: "contain",
         }}
         onClick={() => {
-          alert(_id);
+          // alert(_id);
           router.push(`/productinfo/${_id}`);
         }}
       />
@@ -94,7 +92,7 @@ function RowBox({ ...data }: DataPropType) {
             fs={"italic"}
             style={{ textTransform: "capitalize" }}
           >
-            {productDescription.substring(0, 65) + "..."}
+            {productDescription.substring(0, 45) + "..."}
           </Text>
           <Text fz={"md"} fw={"bold"} my={"2"}>
             ${price}

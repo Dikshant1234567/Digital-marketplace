@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
   console.log("middlerware  activited");
   console.log(token);
   if (!token) {
-    alert("You haven't login");
+    // alert("You haven't login");
     return NextResponse.redirect(new URL("/login", request.url));
   }
 }

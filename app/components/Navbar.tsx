@@ -245,16 +245,20 @@ export default function Navbar() {
             )}
 
             {/* CART ICON */}
-              <Drawer
-                opened={opened}
-                onClose={close}
-                title="Cart"
-                position="right"
-                style={{ overflow: "hidden" , maxWidth :"1024px" }}
-                
-              >
-                <Cart />
-              </Drawer>
+            <Drawer
+              opened={opened}
+              onClose={close}
+              title="Cart"
+              position="right"
+              style={{
+                overflow: "hidden",
+                background: "red",
+                // transform: "translateX(5%)",
+                width: "100vw",
+              }}
+            >
+              <Cart />
+            </Drawer>
             <Box style={{ position: "relative" }}>
               <p
                 style={{
@@ -376,10 +380,9 @@ export default function Navbar() {
               href={"/"}
               onClick={() => closeDrawer()}
               className="nav-links"
+              color={colorScheme === "dark" ? "white" : "black"}
               style={{
-                color: `${
-                  colorScheme == "dark" ? "navajowhite" : "black"
-                } !important`,
+                color: `${colorScheme === "dark" ? "white" : "black"}`,
               }}
             >
               Icons
@@ -390,9 +393,7 @@ export default function Navbar() {
               href={"/"}
               className="nav-links"
               style={{
-                color: `${
-                  colorScheme == "dark" ? "navajowhite" : "black"
-                } !important`,
+                color: `${colorScheme === "dark" ? "navajowhite" : "black"} `,
               }}
             >
               Ui-Kits
