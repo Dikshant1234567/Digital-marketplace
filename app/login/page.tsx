@@ -23,7 +23,7 @@ import { TwitterButton } from "../components/TwitterButton";
 import Link from "next/link";
 import axios from "axios";
 
-export default function Sinup(props: PaperProps) {
+function Login(props: PaperProps) {
   const form = useForm({
     initialValues: {
       email: "",
@@ -123,3 +123,5 @@ export default function Sinup(props: PaperProps) {
     </Paper>
   );
 }
+
+export default Login;

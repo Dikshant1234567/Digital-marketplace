@@ -23,7 +23,7 @@ import { TwitterButton } from "../components/TwitterButton";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 
-export default function Sinup(props: PaperProps) {
+function Sinup(props: PaperProps) {
   const form = useForm({
     initialValues: {
       email: "",
@@ -132,3 +132,5 @@ export default function Sinup(props: PaperProps) {
     </Paper>
   );
 }
+
+export default Sinup;
