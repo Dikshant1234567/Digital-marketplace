@@ -113,7 +113,7 @@ export default function Sinup(props: PaperProps) {
 
         <Group justify="space-between" mt="xl">
           <Anchor component="button" type="button" c="dimmed" size="xs">
-            <Link href="/sinup">Don&apos;t have an account? Register</Link>
+            <Link href="/sinup">Do not have an account? Register</Link>
           </Anchor>
           <Button type="submit" radius="xl">
             Login
