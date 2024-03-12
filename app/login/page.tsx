@@ -34,13 +34,12 @@ export default function Sinup(props: PaperProps) {
       email: (val) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
       password: (val) =>
         val.length <= 6
-          ? "Password should include at least 6 characters"
+          ? `Password should include at least 6 characters`
           : null,
     },
   });
   // backend url
-  const backendUrl = 'https://digital-marketplace-backend.onrender.com'
-
+  const backendUrl = "https://digital-marketplace-backend.onrender.com";
 
   const router = useRouter();
   const { email, password } = form.values;
