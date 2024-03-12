@@ -38,6 +38,9 @@ export default function Sinup(props: PaperProps) {
           : null,
     },
   });
+  // backend url
+  const backendUrl = 'https://digital-marketplace-backend.onrender.com'
+
 
   const router = useRouter();
   const { email, password } = form.values;
@@ -60,7 +63,7 @@ export default function Sinup(props: PaperProps) {
           alert("sumbitted");
 
           axios
-            .post("http://localhost:5050/auth/login", form.values)
+            .post(`${backendUrl}/auth/login`, form.values)
             .then(function (myformResponse) {
               console.log(myformResponse);
               if (myformResponse?.data?.success == true) {

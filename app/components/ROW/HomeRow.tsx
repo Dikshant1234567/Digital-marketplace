@@ -46,10 +46,11 @@ function HomeRow() {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   const tablet = useMediaQuery(`max-width : ${theme.breakpoints.lg}`);
+  const backendUrl = 'https://digital-marketplace-backend.onrender.com'
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5050/product/allproducts`)
+      .get(`${backendUrl}/product/allproducts`)
       .then((response) => {
         setMyvalues(response.data?.data);
       })

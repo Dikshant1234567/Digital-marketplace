@@ -31,6 +31,11 @@ function Cart() {
   const { setColorScheme, clearColorScheme, colorScheme } =
     useMantineColorScheme();
 
+
+    // backendUrl url
+    const backendUrl = 'https://digital-marketplace-backend.onrender.com'
+
+
   useEffect(() => {
     let totalPrice: number = 0;
     let itemPrice: number[] = item.map((i) => i.price);
@@ -101,7 +106,7 @@ function Cart() {
               return (
                 <Box key={i} mb={"xl"} style={{ overflowY: "hidden" }}>
                   <img
-                    src={`http://localhost:5050/uploads/${imgurl}`}
+                    src={`${backendUrl}/uploads/${imgurl}`}
                     alt="productImage"
                     width={"full"}
                     height={200}

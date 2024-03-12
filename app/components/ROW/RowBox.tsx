@@ -47,6 +47,10 @@ function RowBox({ ...data }: DataPropType) {
   const [imgName, setImgName] = useState<String>("");
   const dispatch = useAppDispatch();
 
+  // backend url
+  const backendUrl = 'https://digital-marketplace-backend.onrender.com'
+
+
   useEffect(() => {
     let imgurl = productImage?.map((i) => i);
     let index = imgurl.length - 1;
@@ -65,7 +69,7 @@ function RowBox({ ...data }: DataPropType) {
       }}
     >
       <Image
-        src={`http://localhost:5050/uploads/${imgName}`}
+        src={`${backendUrl}/uploads/${imgName}`}
         alt="productImage"
         width="400"
         height={500}

@@ -56,6 +56,8 @@ function Payment() {
   });
   const params = useSearchParams();
   const router = useRouter();
+  // backend url
+  const backendUrl = 'https://digital-marketplace-backend.onrender.com'
 
   const id = params.get("id");
   const category = params.get("category");
@@ -95,7 +97,7 @@ function Payment() {
           onClick={() => router.back()}
         >
           <Image
-            src={`http://localhost:5050/uploads/${imgUrl}`}
+            src={`${backendUrl}/uploads/${imgUrl}`}
             alt="productImage"
             width={100}
             height={100}
