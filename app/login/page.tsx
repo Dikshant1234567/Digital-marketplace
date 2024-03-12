@@ -23,7 +23,7 @@ import { TwitterButton } from "../components/TwitterButton";
 import Link from "next/link";
 import axios from "axios";
 
-function Login(props: PaperProps) {
+function Login() {
   const form = useForm({
     initialValues: {
       email: "",
@@ -45,7 +45,7 @@ function Login(props: PaperProps) {
   const { email, password } = form.values;
   // console.log(email, password);
   return (
-    <Paper radius="md" p="xl" withBorder {...props} className="mt-0 lg:mt-[8%]">
+    <Paper radius="md" p="xl" withBorder className="mt-0 lg:mt-[8%]">
       <Text size="35px" fw={500} className="capitalize text-center mb-8">
         Login
       </Text>

@@ -23,7 +23,7 @@ import { TwitterButton } from "../components/TwitterButton";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 
-function Sinup(props: PaperProps) {
+function Sinup() {
   const form = useForm({
     initialValues: {
       email: "",
@@ -48,7 +48,7 @@ function Sinup(props: PaperProps) {
   console.log(email, password, userName);
 
   return (
-    <Paper radius="md" p="xl" withBorder {...props} className="mt-0 lg:mt-[8%]">
+    <Paper radius="md" p="xl" withBorder className="mt-0 lg:mt-[8%]">
       <Text size="35px" fw={500} className="capitalize text-center mb-8">
         Sinup
       </Text>
